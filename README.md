@@ -45,6 +45,10 @@ This repo is about LLMs
 Unigram ("This", "repo", "is", "about", "LLMs")
 bigrams ("This repo", "repo is", "is about", "about LLMs")
 ```
+You can think of n-gram model as counting frequncies as follows: consider the previos example 
+```
+P(LLMs|This repo is about) = count(This repo is about LLMs) / count(This repo is about)
+```
 Now to find the next word in a sentence we need to calculate the **p(w|h)**, let's consider the above example 
 ```
 P(LLMs|This repo is about)
@@ -62,6 +66,9 @@ P(wi|w1,w2,...,wi-1) = P(wi|wi-k,....,wi-1)
 For Unigram: P(w1w2,....wn) = ΠP(wi)
 For Bigram: P(wi|w1w2,....wi-1) = P(wi|wi-1)
 ```
+We can extend to trigrams, 4-grams, 5-grams.
 
+> In general this is an insufficient model of language because language has long distance dependecies:
+> The computer(s) which I had just put into the machine room on the fifth floor is (are) crashing.
      
-   
+### Exponential Language Models:   
