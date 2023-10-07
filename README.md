@@ -1,4 +1,4 @@
-![image](https://github.com/ElDokmak/LLMs/assets/85394315/4348f26a-ef5f-446e-9eb6-f2151ee91c69)# Large Language Models (LLMs)
+# Large Language Models (LLMs)
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*s2Va5YO3xKPLmrwR2THdtQ.png">
 
 ## **Content**
