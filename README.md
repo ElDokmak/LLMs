@@ -4,7 +4,7 @@
 ## **Content**
 * What is Large Language Model?
 * Applications
-* Types of Language models
+* Types of Language Models
   
 ---
 ## What is Large Language Model?
@@ -20,6 +20,17 @@ this process is repeated until the model reaches an acceptable level of accuracy
 ## Applications
 1. Text Generation
 2. Machine Translation
-3. Speech Recognition
-4. Summarization
-5. Q&A, dialogue bots, etc.....
+3. Summarization
+4. Q&A, dialogue bots, etc.....
+
+---
+## Types of Language Models?
+## **1. Statistical Language Modeling:**
+
+Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
+
+### n-gram Language Models: 
+
+
+     
+   
