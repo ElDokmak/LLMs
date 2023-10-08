@@ -2,15 +2,16 @@
 <img src="https://www.marktechpost.com/wp-content/uploads/2023/04/Screenshot-2023-05-01-at-6.33.37-AM.png">
 
 ## **Content**
-* **What is Large Language Model?**
-* **Applications**
-* **Types of Language Models**
-    * Statistical Modeling
-        * N-gram model
-        * Exponential Model
-    * Neural Modeling
-* **Evaluation of LMs**
-* **Transformer-Based Language Models**
+* **[What is Large Language Model?](#what-is-large-language-model)**
+* **[Applications](#Applications)**
+* **[Types of Language Models](#types-of-language-models)**
+    * [Statistical Modeling](#statistical-language-modeling)
+        * [N-gram model](#N-gram-Language-Models)
+        * [Exponential Model](#Exponential-Language-Models)
+    * [Neural Modeling](#neural-language-modeling-nlm)
+* **[Evaluation of LMs](#evaluation-of-lms)**
+* **[Transformer-Based Language Models](#transformer-based-language-models)**
+* **[Refrences](#Refrences)**
   
 ---
 ## What is Large Language Model?
@@ -134,4 +135,29 @@ Perplexity is the inverse of probability and lower perplexity is better
 
 ---
 ## Transformer-Based Language Models
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Refrences        
+|                                       Refrences                                    |
+| :--------------------------------------------------------------------------------: |
+|         [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)        | 
+|          [Machine Learning Mastery](https://machinelearningmastery.com/)           | 
+|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
+|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
+|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
 
