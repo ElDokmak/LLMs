@@ -9,6 +9,8 @@
         * N-gram model
         * Exponential Model
     * Neural Modeling
+* **Evaluation of LMs**
+* **Transformer-Based Language Models**
   
 ---
 ## What is Large Language Model?
@@ -30,8 +32,7 @@ this process is repeated until the model reaches an acceptable level of accuracy
 ---
 ## Types of Language Models?
 ## **Statistical Language Modeling:**
-
-Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
+> Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
 
 ### N-gram Language Models: 
 N-gram can be defined as the contigous sequence of n items (can be letters, words or base pairs according to the application) from a given sample of text (A long text dataset).
@@ -81,5 +82,53 @@ a or some form of regularization.
 
 The **log-bilinear model** is another example of an exponential language model.
 
-### Limitation of Statistical LMs
-Sparsity 
+### Limitations of Statistical LMs
+* Sparsity probelm
+     1. Count(n-gram) = 0 --> Solution: Smoothing (adding small alpha)
+     2. Count(n-1 gram) = 0 --> Solution: Backoff
+* Exponential growth
+     The number of n-grams grows as an nth exponent of the vocabulary size. A 10,000-word vocabulary would have 10¹² tri-grams and a 100,000 word vocabulary will have 10¹⁵ trigrams.
+* Generalization
+     Lack of generalization. If the model sees the term ‘white horse’ in the training data but does not see ‘black horse’, the MLE will assign zero probability to ‘black horse’. (Thankfully, it will assign zero probability to Purple horse as well)
+  
+## **Neural Language Modeling: (NLM)**
+NLM mainly use RNNs (/LSTMs/GRUs)
+
+### RNN’s (Recurrent Neural Networks):
+> A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. In effect, an RNN is a type of neural network that has an internal loop.
+
+RNNs solve the sparsity problem
+<img src="https://stanford.edu/~shervine/teaching/cs-230/illustrations/architecture-rnn-ltr.png?9ea4417fc145b9346a3e288801dbdfdc">
+
+**Types of RNNs**
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*VCxoP7Siu0YB501L_-eg1w.png">
+
+**Disadvantages of RNNs**
+* Vanishing Gradiients --> Solution: LSTMs/GRUs.
+* Exploding Gradients --> Solution: Truncation or squashing the gradients.
+* Sequential processing/ slow.
+* Can't capture information for longer sequences.
+
+### LSTMs (Long Short Term Memory networks)
+> LSTMs are a special kind of RNN, capable of learning long-term dependencies.
+<img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/12/10131302/13.png">
+
+LSTM is made up of 3 gates.
+1. Input Gate: We decide to add new stuff from the present input to our present cell state scaled by how much we wish to add them.
+2. Forget Gate: After getting the output of previous state, h(t-1), Forget gate helps us to take decisions about what must be removed from h(t-1) state and thus keeping only relevant stuff.
+3. Output Gate: Finally we’ll decide what to output from our cell state which will be done by our sigmoid function.
+
+---
+## Evaluation of LMs
+### Extrinsic Evaluation
+> Extrinsic evaluation is the best way to evaluate the performance of a language model by embedding it in an application and measuring how much the application improves.
+
+End-to-end evaluation where we can understand if a particular improvement in a component is really going to help the task at hand, however it's time consuming
+
+### Intrinsic Evaluation
+> An intrinsic evaluation metric is one that measures the quality of a model-independent of any application.
+* Perplexity: It is a measure of how well a probability model predicts a sample.
+Perplexity is the inverse of probability and lower perplexity is better
+
+
+
