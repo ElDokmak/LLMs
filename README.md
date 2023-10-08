@@ -71,4 +71,12 @@ We can extend to trigrams, 4-grams, 5-grams.
 > In general this is an insufficient model of language because language has long distance dependecies:
 > The computer(s) which I had just put into the machine room on the fifth floor is (are) crashing.
      
-### Exponential Language Models:   
+### Exponential Language Models: 
+Exponential (Maximum entropy) LM encode the relationship between a word and the n-gram history using feature functions. The equation is 
+
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/99beafb1eed251682c4037f19a4d80da3003cd4e">
+Where Z(w1,....,wm-1) is the partition function, a is the parameter vector, and f(w1,......,wm) is the feature function.
+In the simplest case, the feature function is just an indicator of the presence of a certain n-gram. It is helpful to use a prior on 
+a or some form of regularization.
+
+The **log-bilinear model** is another example of an exponential language model.
