@@ -83,12 +83,14 @@ a or some form of regularization.
 The **log-bilinear model** is another example of an exponential language model.
 
 ### Limitations of Statistical LMs
-* Sparsity probelm
+* Sparsity probelm:
      1. Count(n-gram) = 0 --> Solution: Smoothing (adding small alpha)
      2. Count(n-1 gram) = 0 --> Solution: Backoff
-* Exponential growth
+* Exponential growth:
+  
      The number of n-grams grows as an nth exponent of the vocabulary size. A 10,000-word vocabulary would have 10¹² tri-grams and a 100,000 word vocabulary will have 10¹⁵ trigrams.
-* Generalization
+* Generalization:
+  
      Lack of generalization. If the model sees the term ‘white horse’ in the training data but does not see ‘black horse’, the MLE will assign zero probability to ‘black horse’. (Thankfully, it will assign zero probability to Purple horse as well)
   
 ## **Neural Language Modeling: (NLM)**
@@ -130,5 +132,6 @@ End-to-end evaluation where we can understand if a particular improvement in a c
 * Perplexity: It is a measure of how well a probability model predicts a sample.
 Perplexity is the inverse of probability and lower perplexity is better
 
-
+---
+## Transformer-Based Language Models
 
