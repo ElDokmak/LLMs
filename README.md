@@ -135,3 +135,28 @@ Perplexity is the inverse of probability and lower perplexity is better
 ---
 ## Transformer-Based Language Models
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Refrences        
+|                                       Refrences                                    |
+| :--------------------------------------------------------------------------------: |
+|         [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)        | 
+|          [Machine Learning Mastery](https://machinelearningmastery.com/)           | 
+|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
+|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
+|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
+
