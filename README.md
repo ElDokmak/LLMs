@@ -2,14 +2,14 @@
 <img src="https://www.marktechpost.com/wp-content/uploads/2023/04/Screenshot-2023-05-01-at-6.33.37-AM.png">
 
 ## **Content**
-* **What is Large Language Model?**
+* **[What is Large Language Model?](https://github.com/ElDokmak/LLMs/edit/main/README.md#what-is-large-language-model)**
 * **[Applications](#-Applications)**
 * **Types of Language Models**
     * Statistical Modeling
         * N-gram model
         * Exponential Model
     * Neural Modeling
-* **Evaluation of LMs**
+* **[Evaluation of LMs](https://github.com/ElDokmak/LLMs/edit/main/README.md#evaluation-of-lms)**
 * **Transformer-Based Language Models**
   
 ---
