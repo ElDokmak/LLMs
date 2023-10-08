@@ -9,7 +9,7 @@
         * N-gram model
         * Exponential Model
     * Neural Modeling
-* **[Evaluation of LMs](https://github.com/ElDokmak/LLMs/edit/main/README.md#evaluation-of-lms)**
+* **[Evaluation of LMs](#evaluation-of-lms)**
 * **Transformer-Based Language Models**
   
 ---
