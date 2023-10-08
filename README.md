@@ -1,5 +1,5 @@
 # Large Language Models (LLMs)
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*s2Va5YO3xKPLmrwR2THdtQ.png">
+<img src="https://www.marktechpost.com/wp-content/uploads/2023/04/Screenshot-2023-05-01-at-6.33.37-AM.png">
 
 ## **Content**
 * **What is Large Language Model?**
@@ -29,7 +29,7 @@ this process is repeated until the model reaches an acceptable level of accuracy
 
 ---
 ## Types of Language Models?
-## **1. Statistical Language Modeling:**
+## **Statistical Language Modeling:**
 
 Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
 
@@ -80,3 +80,6 @@ In the simplest case, the feature function is just an indicator of the presence 
 a or some form of regularization.
 
 The **log-bilinear model** is another example of an exponential language model.
+
+### Limitation of Statistical LMs
+Sparsity 
