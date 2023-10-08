@@ -3,7 +3,7 @@
 
 ## **Content**
 * **What is Large Language Model?**
-* **[Applications](##-Applications)**
+* **[Applications](#-Applications)**
 * **Types of Language Models**
     * Statistical Modeling
         * N-gram model
