@@ -3,14 +3,14 @@
 
 ## **Content**
 * **What is Large Language Model?**
-* **Applications**
+* **[Applications](##-Applications)**
 * **Types of Language Models**
     * Statistical Modeling
         * N-gram model
         * Exponential Model
     * Neural Modeling
 * **Evaluation of LMs**
-* **[Transformer-Based Language Models](Transformer-Based Language Models)**
+* **Transformer-Based Language Models**
   
 ---
 ## What is Large Language Model?
