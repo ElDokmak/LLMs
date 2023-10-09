@@ -114,3 +114,17 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 
 
 ### Decoder's Multi-Head Attention
+> The second one operates just like the Encoder while the first one operates slight different than the Encoder since the decoder is autoregressive  and generates the seq word by word, you need to prevent it from conditioning to future tokens using **Masking**.
+
+> Mask is a matrix that’s the same size as the attention scores filled with values of 0’s and negative infinities. When you add the mask to the scaled attention scores, you get a matrix of the scores, with the top right triangle filled with negativity infinities.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*QYFua-iIKp5jZLNT.png">
+
+> The reason for the mask is because once you take the softmax of the masked scores, the negative infinities get zeroed out, leaving zero attention scores for future tokens.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/0*3ykVCJ9okbgB0uUR.png">
+
+
+### Linear Classifier and Final Softmax
+> The output of the final pointwise feedforward layer goes through a final linear layer, that acts as a classifier.
+
+> The output of the classifier then gets fed into a softmax layer, which will produce probability scores between 0 and 1. We take the index of the highest probability score, and that equals our predicted word.
+<img src="https://miro.medium.com/v2/resize:fit:786/format:webp/0*1OyVUO-s-uBh8EV2.png">
