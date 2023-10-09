@@ -128,3 +128,7 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 
 > The output of the classifier then gets fed into a softmax layer, which will produce probability scores between 0 and 1. We take the index of the highest probability score, and that equals our predicted word.
 <img src="https://miro.medium.com/v2/resize:fit:786/format:webp/0*1OyVUO-s-uBh8EV2.png">
+
+> The decoder then takes the output, add’s it to the list of decoder inputs, and continues decoding again until a token is predicted. For our case, the highest probability prediction is the final class which is assigned to the end token.
+
+> The decoder can also be stacked N layers high, each layer taking in inputs from the encoder and the layers before it. By stacking the layers, the model can learn to extract and focus on different combinations of attention from its attention heads, potentially boosting its predictive power.
