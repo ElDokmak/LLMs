@@ -7,7 +7,7 @@
 * **[Postitional Encoding](#Postional-Encoding)**
 * **[Self Attention](#Self-Attention)**
 * **[Multi-Head Attention](#Multi-Head-Attention)**
-* **[Layer Normalization](#Layer-Normalization)**
+* **[Layer Normalization/ Residual Connections/ Feed Forward Network](#layer-normalization-residual-connections-feed-forward-network)**
 * **Encoder**
 * **Decoder**
 
@@ -75,4 +75,4 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 
 
 ---
-## Layer Normalization
+## Layer Normalization/ Residual Connections/ Feed Forward Network
