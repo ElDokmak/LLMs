@@ -8,8 +8,8 @@
 * **[Self Attention](#Self-Attention)**
 * **[Multi-Head Attention](#Multi-Head-Attention)**
 * **[Layer Normalization/ Residual Connections/ Feed Forward Network](#layer-normalization-residual-connections-feed-forward-network)**
-* **Encoder**
-* **Decoder**
+* **[Encoder](#Encoder)**
+* **[Decoder](#Decoder)**
 
 
 ---
