@@ -1,7 +1,7 @@
 # Transformers
-<!--
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*10K7SmGoJ5zAtjkGfNfjkg.png">
--->
+
+
 ## Content
 * **[Input Embeddings](#Embeddings)**
 * **[Postitional Encoding](#Postional-Encoding)**
