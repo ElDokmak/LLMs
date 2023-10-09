@@ -91,3 +91,10 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 
 ---
 ## Encoder
+> The Encoder's job is to map all input sequences into an abstract continous representation that holds information.
+<img src="https://miro.medium.com/v2/resize:fit:640/0*K67VOXrh_xgyCiHS">
+
+
+
+---
+## Decoder
