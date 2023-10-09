@@ -76,3 +76,18 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 
 ---
 ## Layer Normalization/ Residual Connections/ Feed Forward Network
+> Residual Connections = Input Embedding + Positional Encodding are added to Multi-Head Attention.
+
+> Normalization means having Mean = 0 and variance = 1.
+
+* Residual Connections help avoiding the vanishing gradient problem in deep nets.
+* Each hidden layer has a residual connection around it followed by a layer normalization.
+<img src="https://miro.medium.com/v2/resize:fit:640/0*21NPCniNISCCVfxn">
+
+* Then the ouput finishes by passing through a point wise feed forward network.
+<img src="https://miro.medium.com/v2/resize:fit:622/format:webp/1*ItvJ0KeOKCFSXDUNce2zAA.png">
+
+
+
+---
+## Encoder
