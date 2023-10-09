@@ -92,9 +92,25 @@ Instead of one single head attention, Q, K, and V are split into multiple heads.
 ---
 ## Encoder
 > The Encoder's job is to map all input sequences into an abstract continous representation that holds information.
+
+> You can stack the encoder N times to further encode the information, where each layer has the opportunity to learn different attention representations therefore potentially boosting the predictive power of the transformer network.
 <img src="https://miro.medium.com/v2/resize:fit:640/0*K67VOXrh_xgyCiHS">
 
 
 
 ---
 ## Decoder
+> The Decoder's job is to generate text sequences.
+<img src="https://miro.medium.com/v2/resize:fit:640/0*lx0m8R-k0dwq7sy3">
+
+* It has two multi-headed attention layers, a pointwise feed-forward layer, and residual connections, and layer normalization after each sub-layer.
+* These sub-layers behave similarly to the layers in the encoder but each multi-headed attention layer has a different job.
+
+> The decoder is capped off with a linear layer that acts as a classifier, and a softmax to get the word probabilities.
+
+> The deocoder is autoregressive, it begins with a start token, and takes previos output as inputs, as well as the encoder outputs that contain attention information from the input.
+
+> Decoder's Input Embeddings & Positional Encoding is almost the same as the Encoder.
+
+
+### Decoder's Multi-Head Attention
