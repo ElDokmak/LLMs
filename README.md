@@ -185,8 +185,19 @@ It is a uni-directional transformer network that generates output.
 
 ---
 ## Generative configuration parameters for inference
+<img src="https://github.com/ElDokmak/LLMs-variety/assets/85394315/b8f7cc45-8b97-411f-82df-711988a90b50">
 
+* **Max new tokens:** the number of generated tokens.
+* **Greedy vs. random sampling:**
+   * **Greedy search:** the word/token with the highest probability is selected.
+   * **Random sampling:** select a token using a random-weighted strategy across the probabilities of all tokens.
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*3WS82V-mcwbiGvNupuWoCw.jpeg">
 
+* **Top-k sampling:** select an output of the top-k results after applying random-weighted strategy using the probabilities.
+* **Top-p sampling:** select an output using the random-weighted strategy with the top-ranked consecutive results by probability and cumulative probability <= p. 
+* **Temperature:** you can think of temperature as how creative out model is?
+   * **Lowwer-temp:** means strongly peaked probability distribution with more certain and realistic outputs.
+   * **Higher-temp:** means broader, flatter probability distribution with creative output but less certain.
 
 
 
@@ -202,4 +213,5 @@ It is a uni-directional transformer network that generates output.
 |          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
 |          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
 |          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
+https://towardsdatascience.com/
 
