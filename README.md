@@ -1,6 +1,9 @@
 # Large Language Models (LLMs)
 <img src="https://www.marktechpost.com/wp-content/uploads/2023/04/Screenshot-2023-05-01-at-6.33.37-AM.png">
 
+
+
+---
 ## **Content**
 * **[What is Large Language Model?](#what-is-large-language-model)**
 * **[Applications](#Applications)**
@@ -12,6 +15,9 @@
 * **[Evaluation of LMs](#evaluation-of-lms)**
 * **[Transformer-Based Language Models](#transformer-based-language-models)**
 * **[Refrences](#Refrences)**
+* **[Generative configuration parameters for inference]()**
+
+
   
 ---
 ## What is Large Language Model?
@@ -23,6 +29,8 @@ The term **large** refers to the number of parameters that model has.
 LLMs are trained with huge amount of data and use self-supervised learning to predict the next token in a sentence, given the surrounding context,
 this process is repeated until the model reaches an acceptable level of accuracy.
 
+
+
 ---
 ## Applications
 1. Text Generation
@@ -30,10 +38,13 @@ this process is repeated until the model reaches an acceptable level of accuracy
 3. Summarization
 4. Q&A, dialogue bots, etc.....
 
+
+
 ---
 ## Types of Language Models?
 ## **Statistical Language Modeling:**
 > Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
+
 
 ### N-gram Language Models: 
 N-gram can be defined as the contigous sequence of n items (can be letters, words or base pairs according to the application) from a given sample of text (A long text dataset).
@@ -72,6 +83,7 @@ We can extend to trigrams, 4-grams, 5-grams.
 
 > In general this is an insufficient model of language because language has long distance dependecies:
 > The computer(s) which I had just put into the machine room on the fifth floor is (are) crashing.
+
      
 ### Exponential Language Models: 
 Exponential (Maximum entropy) LM encode the relationship between a word and the n-gram history using feature functions. The equation is 
@@ -83,6 +95,7 @@ a or some form of regularization.
 
 The **log-bilinear model** is another example of an exponential language model.
 
+
 ### Limitations of Statistical LMs
 * Sparsity probelm:
      1. Count(n-gram) = 0 --> Solution: Smoothing (adding small alpha)
@@ -93,9 +106,11 @@ The **log-bilinear model** is another example of an exponential language model.
 * Generalization:
   
      Lack of generalization. If the model sees the term ‘white horse’ in the training data but does not see ‘black horse’, the MLE will assign zero probability to ‘black horse’. (Thankfully, it will assign zero probability to Purple horse as well)
+
   
 ## **Neural Language Modeling: (NLM)**
 NLM mainly use RNNs (/LSTMs/GRUs)
+
 
 ### RNN’s (Recurrent Neural Networks):
 > A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. In effect, an RNN is a type of neural network that has an internal loop.
@@ -112,6 +127,7 @@ RNNs solve the sparsity problem
 * Sequential processing/ slow.
 * Can't capture information for longer sequences.
 
+
 ### LSTMs (Long Short Term Memory networks)
 > LSTMs are a special kind of RNN, capable of learning long-term dependencies.
 <img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/12/10131302/13.png">
@@ -120,6 +136,8 @@ LSTM is made up of 3 gates.
 1. Input Gate: We decide to add new stuff from the present input to our present cell state scaled by how much we wish to add them.
 2. Forget Gate: After getting the output of previous state, h(t-1), Forget gate helps us to take decisions about what must be removed from h(t-1) state and thus keeping only relevant stuff.
 3. Output Gate: Finally we’ll decide what to output from our cell state which will be done by our sigmoid function.
+
+
 
 ---
 ## Evaluation of LMs
@@ -133,6 +151,8 @@ End-to-end evaluation where we can understand if a particular improvement in a c
 * Perplexity: It is a measure of how well a probability model predicts a sample.
 Perplexity is the inverse of probability and lower perplexity is better
 
+
+
 ---
 ## Transformer-Based Language Models
 Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computations due to sequential processing, and they can't capture contextual information for longer sequences.
@@ -141,18 +161,30 @@ Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computatio
 
 > Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
 
+
 ### Encoder: 
 It is a bidirectional transformer network that encodes inputs, it takes in text, produces a feature vector representation for each word in the sentence.
 > Encoder Models: Masked Language Modeling (auto-encoders) like BERT, ALBERT, ....etc.
 
+> Use cases: Sentiment analysis, NER, and Word classification
+
+
 ### Decoder: 
 It is a uni-directional transformer network that generates output.
-> Decoder Models: Autoregressive Models like GPT.
+> Decoder Models: Causal Language Modeling (Autoregressive) like GPT, BLOOM.
+
+> Use cases: Text generation.
+
 
 ### Encoder + Decoder Models:
-> Span corruption modes like T5.
+> Span corruption modes like T5, BART.
+
+> Use cases: Translation, Text summarization, and Question answering.
 
 
+
+---
+## Generative configuration parameters for inference
 
 
 
