@@ -16,6 +16,7 @@
 * **[Transformer-Based Language Models](#transformer-based-language-models)**
 * **[Refrences](#Refrences)**
 * **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
+* **[Computational challenges and Qunatization](#Computational-challenges-and-Qunatization)**
 
 
   
@@ -201,17 +202,21 @@ It is a uni-directional transformer network that generates output.
 
 
 
+---
+## Computational challenges and Qunatization
 
 
 
 
+
+---
 ## Refrences        
 |                                       Refrences                                    |
 | :--------------------------------------------------------------------------------: |
 |         [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)        | 
 |          [Machine Learning Mastery](https://machinelearningmastery.com/)           | 
+|          [Towardsdatascience](https://towardsdatascience.com/)                     | 
 |          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
 |          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
 |          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
-https://towardsdatascience.com/
 
