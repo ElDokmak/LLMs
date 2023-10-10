@@ -204,8 +204,28 @@ It is a uni-directional transformer network that generates output.
 
 ---
 ## Computational challenges and Qunatization
+> Approximate GPU RAM needed to store/train 1B parameters
 
+> To store 1 parameter = 4 bytes(FP32) --> 1B parameters = 4GB 
+>
+> To train 1 parameter = 24 bytes(FP32) --> 1B paramters = 80GB
 
+This huge usage of GPU RAM will result in Out Of Memory problem: as a solution **Quantization** was introduced
+
+## Quantization
+Instead of full precision we can use lower precision.
+
+The following image shows how to store paramters using different data types:
+<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*VAq-r_4DnhmZcsaI4rqw3A.png">
+
+### Types of Quantization
+1. **Post-Training Quantization (PTQ)**
+   > Is a straightforward technique where the weights of an already trained model are converted to lower precision without necessitating any retraining.
+   > Although easy to implement, PTQ is associated with potential performance degradation.
+   
+   > We will focus on PTQ only.
+3. **Quantization-Aware Training (QAT)**
+   > incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
 
 
 
