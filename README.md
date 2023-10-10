@@ -219,4 +219,7 @@ It is a uni-directional transformer network that generates output.
 |          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
 |          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
 |          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
+|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)             | 
+
+
 
