@@ -15,7 +15,7 @@
 * **[Evaluation of LMs](#evaluation-of-lms)**
 * **[Transformer-Based Language Models](#transformer-based-language-models)**
 * **[Refrences](#Refrences)**
-* **[Generative configuration parameters for inference]()**
+* **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
 
 
   
@@ -165,20 +165,20 @@ Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computatio
 ### Encoder: 
 It is a bidirectional transformer network that encodes inputs, it takes in text, produces a feature vector representation for each word in the sentence.
 > Encoder Models: Masked Language Modeling (auto-encoders) like BERT, ALBERT, ....etc.
-
+>
 > Use cases: Sentiment analysis, NER, and Word classification
 
 
 ### Decoder: 
 It is a uni-directional transformer network that generates output.
 > Decoder Models: Causal Language Modeling (Autoregressive) like GPT, BLOOM.
-
+>
 > Use cases: Text generation.
 
 
 ### Encoder + Decoder Models:
 > Span corruption modes like T5, BART.
-
+>
 > Use cases: Translation, Text summarization, and Question answering.
 
 
