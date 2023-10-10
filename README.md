@@ -135,12 +135,22 @@ Perplexity is the inverse of probability and lower perplexity is better
 
 ---
 ## Transformer-Based Language Models
+Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computations due to sequential processing, and they can't capture contextual information for longer sequences.
 
+> The Solution was found when the paper Attention is All You Need which introduced the Transformer architecture came to life.
 
+> Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
 
+### Encoder: 
+It is a bidirectional transformer network that encodes inputs, it takes in text, produces a feature vector representation for each word in the sentence.
+> Encoder Models: Masked Language Modeling (auto-encoders) like BERT, ALBERT, ....etc.
 
+### Decoder: 
+It is a uni-directional transformer network that generates output.
+> Decoder Models: Autoregressive Models like GPT.
 
-
+### Encoder + Decoder Models:
+> Span corruption modes like T5.
 
 
 
