@@ -317,12 +317,26 @@ def zeropoint_quantize(X):
 
 
 ### GGML
+> GGML is a C library focused on machine learning. It was designed to be used in conjunction with the llama.cpp library.
+>
+> The library is written in C/C++ for efficient inference of Llama models. It can load GGML models and run them on a CPU. Originally, this was the main difference with GPTQ models, which are loaded and run on a GPU.
+
+#### **Quantization with GGML**
+> The way GGML quantizes weights is not as sophisticated as GPTQ’s. Basically, it groups blocks of values and rounds them to a lower precision. Some techniques, like Q4_K_M and Q5_K_M, implement a higher precision for critical layers. In this case, every weight is stored in 4-bit precision, with the exception of half of the attention.wv and feed_forward.w2 tensors.
+
+> Experimentally, this mixed precision proves to be a good tradeoff between accuracy and resource usage.
+>
+>  weights are processed in blocks, each consisting of 32 values. For each block, a scale factor (delta) is derived from the largest weight value. All weights in the block are then scaled, quantized, and packed efficiently for storage (nibbles).
+>
+> This approach significantly reduces the storage requirements while allowing for a relatively simple and deterministic conversion between the original and quantized weights.
 
 
+#### **NF4 vs. GGML vs. GPTQ**
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*yz7rSvjKtukVXdVHwxGfAQ.png">
 
+> Based on these results, we can say that GGML models have a slight advantage in terms of perplexity. The difference is not particularly significant, which is why it is better to focus on the generation speed in terms of tokens/second.
 
-
-
+> The best technique depends on your GPU: if you have enough VRAM to fit the entire quantized model, GPTQ with ExLlama will be the fastest. If that’s not the case, you can offload some layers and use GGML models with llama.cpp to run your LLM.
 
 
 
