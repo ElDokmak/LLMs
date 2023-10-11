@@ -227,6 +227,9 @@ The following image shows how to store paramters using different data types:
 2. **Quantization-Aware Training (QAT)**
    > incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
 
+> In both cases the goal is to map FP32 into INT8.
+
+<!--
 ### 🔰 Naïve 8-bit Quantization
 * A symmetric one with **absolute maximum (absmax) quantization**.
 <img align="center" src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*jNl_x4JF0lpRA4_6Cae9cg.png">
@@ -279,13 +282,56 @@ def zeropoint_quantize(X):
 > e.g. We have a maximum value of 3.2 and a minimum value of -3.0. We can calculate the scale is 255/(3.2 + 3.0) = 41.13 and the zero-point -round(41.13 × -3.0) - 128 = 123 -128 = -5, so our previous weight of 0.1 would be quantized to round(41.13 × 0.1 -5) = -1.
 > This is very different from the previous value obtained using absmax (4 vs. -1).
 <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*n5nqoJUXp65JahKsLzQS-A.png">
+-->
+
+
+###  GPTQ: Post-training quantization on generative models
+> GPTQ is not only efficient enough to be applied to models boasting hundreds of billions of parameters, but it can also achieve remarkable precision by compressing these models to a mere 2, 3, or 4 bits per parameter without sacrificing significant accuracy.
+
+> What sets GPTQ apart is its adoption of a mixed int4/fp16 quantization scheme. Here, model weights are quantized as int4, while activations are retained in float16. During inference, weights are dynamically dequantized, and actual computations are performed in float16.
+
+> GPTQ has the ability to quantize models without the need to load the entire model into memory. Instead, it quantizes the model module by module, significantly reducing memory requirements during the quantization process.
+
+> GPTQ first applies scalar quantization to the weights, followed by vector quantization of the residuals. 
+
+#### **When you should use GPTQ?**
+   - An approach that is being applied to numerous models and that is indicated by HuggingFace, is the following:
+      - Fine-tune the original LLM model with bitsandbytes in 4-bit, nf4, and QLoRa for efficient fine-tuning.
+      - Merge the adapter into the original model
+      - Quantize the resulting model with GPTQ 4-bit
+
+
+### AutoGPTQ 
+> The AutoGPTQ library emerges as a powerful tool for quantizing Transformer models, employing the efficient GPTQ method.
+
+>  AutoGPTQ advantages :
+> Quantized models are serializable and can be shared on the Hub.
+> 
+> GPTQ drastically reduces the memory requirements to run LLMs, while the inference latency is on par with FP16 inference.
+> 
+> AutoGPTQ supports Exllama kernels for a wide range of architectures.
+> 
+> The integration comes with native RoCm support for AMD GPUs.
+> 
+> Finetuning with PEFT is available.
+
+
+### GGML
 
 
 
-> In both cases the goal is to map FP32 into INT8.
 
 
-###  GPTQ weight quantization
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -307,6 +353,9 @@ def zeropoint_quantize(X):
 |          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
 |          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
 |          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)             | 
+|          [GPTQ](https://arxiv.org/abs/2210.17323)                                  | 
+|          [GGML](https://github.com/ggerganov/ggml)                                 | 
+
 
 
 
