@@ -122,7 +122,6 @@ quantized_model = load_quantized_model(
 
 --- 
 ## Quantization vs. Pruning vs. Knowledge Distillation
-## Quantization explained above
 ## Pruning
 > Removing some of the connections in our neural network, which result in **sparse network**.
 <img src="https://miro.medium.com/v2/resize:fit:559/1*0mGJU7eNWgrqU5sgk-7RoQ.png">
