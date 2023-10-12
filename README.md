@@ -227,7 +227,6 @@ The following image shows how to store paramters using different data types:
 2. **Quantization-Aware Training (QAT)**
    > incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
 
-> In both cases the goal is to map FP32 into INT8.
 
 <!--
 ### 🔰 Naïve 8-bit Quantization
@@ -279,67 +278,16 @@ def zeropoint_quantize(X):
     return X_quant.to(torch.int8), X_dequant
 ```
 
+> In both cases the goal is to map FP32 into INT8.
+
 > e.g. We have a maximum value of 3.2 and a minimum value of -3.0. We can calculate the scale is 255/(3.2 + 3.0) = 41.13 and the zero-point -round(41.13 × -3.0) - 128 = 123 -128 = -5, so our previous weight of 0.1 would be quantized to round(41.13 × 0.1 -5) = -1.
 > This is very different from the previous value obtained using absmax (4 vs. -1).
 <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*n5nqoJUXp65JahKsLzQS-A.png">
+
 -->
 
-
-###  GPTQ: Post-training quantization on generative models
-> GPTQ is not only efficient enough to be applied to models boasting hundreds of billions of parameters, but it can also achieve remarkable precision by compressing these models to a mere 2, 3, or 4 bits per parameter without sacrificing significant accuracy.
-
-> What sets GPTQ apart is its adoption of a mixed int4/fp16 quantization scheme. Here, model weights are quantized as int4, while activations are retained in float16. During inference, weights are dynamically dequantized, and actual computations are performed in float16.
-
-> GPTQ has the ability to quantize models without the need to load the entire model into memory. Instead, it quantizes the model module by module, significantly reducing memory requirements during the quantization process.
-
-> GPTQ first applies scalar quantization to the weights, followed by vector quantization of the residuals. 
-
-#### **When you should use GPTQ?**
-   - An approach that is being applied to numerous models and that is indicated by HuggingFace, is the following:
-      - Fine-tune the original LLM model with bitsandbytes in 4-bit, nf4, and QLoRa for efficient fine-tuning.
-      - Merge the adapter into the original model
-      - Quantize the resulting model with GPTQ 4-bit
-
-
-### AutoGPTQ 
-> The AutoGPTQ library emerges as a powerful tool for quantizing Transformer models, employing the efficient GPTQ method.
-
->  AutoGPTQ advantages :
-> Quantized models are serializable and can be shared on the Hub.
-> 
-> GPTQ drastically reduces the memory requirements to run LLMs, while the inference latency is on par with FP16 inference.
-> 
-> AutoGPTQ supports Exllama kernels for a wide range of architectures.
-> 
-> The integration comes with native RoCm support for AMD GPUs.
-> 
-> Finetuning with PEFT is available.
-
-
-### GGML
-> GGML is a C library focused on machine learning. It was designed to be used in conjunction with the llama.cpp library.
->
-> The library is written in C/C++ for efficient inference of Llama models. It can load GGML models and run them on a CPU. Originally, this was the main difference with GPTQ models, which are loaded and run on a GPU.
-
-#### **Quantization with GGML**
-> The way GGML quantizes weights is not as sophisticated as GPTQ’s. Basically, it groups blocks of values and rounds them to a lower precision. Some techniques, like Q4_K_M and Q5_K_M, implement a higher precision for critical layers. In this case, every weight is stored in 4-bit precision, with the exception of half of the attention.wv and feed_forward.w2 tensors.
-
-> Experimentally, this mixed precision proves to be a good tradeoff between accuracy and resource usage.
->
->  weights are processed in blocks, each consisting of 32 values. For each block, a scale factor (delta) is derived from the largest weight value. All weights in the block are then scaled, quantized, and packed efficiently for storage (nibbles).
->
-> This approach significantly reduces the storage requirements while allowing for a relatively simple and deterministic conversion between the original and quantized weights.
-
-
-#### **NF4 vs. GGML vs. GPTQ**
-<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*yz7rSvjKtukVXdVHwxGfAQ.png">
-
-> Based on these results, we can say that GGML models have a slight advantage in terms of perplexity. The difference is not particularly significant, which is why it is better to focus on the generation speed in terms of tokens/second.
-
-> The best technique depends on your GPU: if you have enough VRAM to fit the entire quantized model, GPTQ with ExLlama will be the fastest. If that’s not the case, you can offload some layers and use GGML models with llama.cpp to run your LLM.
-
-
-
+### GPTQ, AutoGPTQ, GGML, Pruning, and Distillation
+> Explained in the directory **[Quantization](https://github.com/ElDokmak/LLMs/tree/main/Quantization)**
 
 
 
