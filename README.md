@@ -417,17 +417,25 @@ Auto-CoT consists of the following main stages:
 
 ---
 ## Refrences        
-|                                       Refrences                                    |
-| :--------------------------------------------------------------------------------: |
-|         [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)        | 
-|          [Machine Learning Mastery](https://machinelearningmastery.com/)           | 
-|          [Towardsdatascience](https://towardsdatascience.com/)                     | 
-|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)      | 
-|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                 | 
-|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)       | 
-|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)             | 
-|          [GPTQ](https://arxiv.org/abs/2210.17323)                                  | 
-|          [GGML](https://github.com/ggerganov/ggml)                                 | 
+|                                                 Refrences                                                       |
+| :------------------------------------------------------------------------------------------------------------:  |
+|          [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)                                    | 
+|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                        | 
+|          [Towardsdatascience](https://towardsdatascience.com/)                                                  | 
+|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)                                   | 
+|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                                              | 
+|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)                                    | 
+|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                          | 
+|          [GPTQ](https://arxiv.org/abs/2210.17323)                                                               | 
+|          [GGML](https://github.com/ggerganov/ggml)                                                              | 
+|          [In-contextLearning](https://arxiv.org/abs/2301.00234)                                                 | 
+|          [Chain-of-Thought Prompting](https://arxiv.org/abs/2201.11903)                                         | 
+|          [SELF-CONSISTENCY](https://arxiv.org/abs/2203.11171)                                                   | 
+|          [Tree of Thoughts](https://arxiv.org/abs/2305.10601)                                                   | 
+|          [Automatic Prompt Augmentation and Selection with Chain-of-Thought](https://arxiv.org/abs/2302.12822)  | 
+|          [Automatic Chain of Thought Prompting](https://arxiv.org/abs/2210.03493)                               | 
+
+
 
 
 
