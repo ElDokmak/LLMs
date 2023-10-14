@@ -17,6 +17,7 @@
 * **[Refrences](#Refrences)**
 * **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
 * **[Computational challenges and Qunatization](#Computational-challenges-and-Qunatization)**
+* **[Prompt Engineering](#prompt-engineering)**
 * **[Fine-Tuning](#fine-tuning)**
 
 
@@ -294,7 +295,7 @@ def zeropoint_quantize(X):
 
 ---
 ## Prompt Engineering
-* **In-context learning (ICL)**
+### **In-context learning (ICL)**
 > In-context learning (ICL) is a specific method of prompt engineering where demonstrations of the task are provided to the model as part of the prompt (in natural language).
 
 > LLMs demonstrate an in-context learning (ICL) ability, that is, learning from a few examples in the context. Many studies have shown that LLMs can perform a series of complex tasks through ICL, such as solving mathematical reasoning problems.
@@ -357,8 +358,51 @@ A: The cafeteria had 23 apples originally. They used 20 to make lunch. So they h
 > The process involves two steps: first “reasoning prompt extraction” to extract a full reasoning path from a language model, and then use the second “answer prompt extraction” to extract the answer in the correct format from the reasoning text.
 
 * **Self-consistency COT**
+> Instead of using the greedy decoding strategy in COT, the authors propose another decoding strategy called self-consistency to replace the greedy decoding strategy used in chain-of-thought prompting.
+
+> First, prompt the language model with chain-of-thought prompting, then instead of greedily decoding the optimal reasoning path, authors propose “sample-and-marginalize” decoding procedure.
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*aHxtX5BCVcJ5rHaqB1aHaw.png">
+
 * **Tree of thoughts**
+> Tree of thoughts which generalizes over the “Chain of Thoughts” approach to prompting language models and enables exploration over coherent units of text (“thoughts”) that serve as intermediate steps toward problem-solving.
+
+> ToT allows LMs to perform deliberate decision-making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary to make global choices.
+
+> The results/experiments show that ToT significantly enhances language models’ problem-solving abilities on three novel tasks requiring non-trivial planning or search: Game of 24, Creative Writing, and Mini Crosswords.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*QJidAN1BWinejmLF8ByRqw.png">
+
+The ToT does 4 things:
+   1. Thought decomposition
+   2. Thought generator
+   3. State evaluator
+   4. Search algorithm.
+
 * **Self-Ask**
+> Self-Ask Prompting is a progression from Chain Of Thought Prompting, which improves the ability of language models to answer complex questions.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*5R8lx3gTlEjvvHoSs0Gjhg.png">
+
+### **Auto Prompt Techniques**
+> This is an active research area and the following section discusses some attempts towards automatic prompt design approaches.
+
+**1. Automatic Prompt Augmentation and Selection COT:**
+
+Prompt Augmentation and Selection COT is a three step process:
+- **Augment:** Generate multiple pseudo-chains of thought given question using few-shot or zero-shot CoT prompts;
+- **Prune:** Prune pseudo chains based on whether generated answers match ground truths.
+- **Select:** Apply a variance-reduced policy gradient strategy to learn the probability distribution over selected examples, while considering the probability distribution over examples as policy and the validation set accuracy as reward.
+
+**2. Auto-CoT: Automatic Chain-of-Thought Prompting:**
+
+In Automatic Chain-of-Thought Prompting in Large Language Models, the authors propose Auto-CoT paradigm to automatically construct demonstrations with questions and reasoning chains.
+In this technique, authors adopted clustering techniques to sample questions and then generates chains.
+
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*-3I3jfHy-_6vYbViWM1lKw.png">
+
+Auto-CoT consists of the following main stages:
+- **Question clustering:** Perform cluster analysis for a given set of questions Q. First compute a vector representation for each question in Q by Sentence-BERT.
+- **Demonstration selection:** Select a set of representative questions from each cluster; i.e. one demonstration from one cluster.
+- **Rationale generation:** Use zero-shot CoT to generate reasoning chains for selected questions and construct few-shot prompt to run inference.
+
 
 
 
