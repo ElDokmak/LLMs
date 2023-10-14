@@ -17,6 +17,7 @@
 * **[Refrences](#Refrences)**
 * **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
 * **[Computational challenges and Qunatization](#Computational-challenges-and-Qunatization)**
+* **[Fine-Tuning](#fine-tuning)**
 
 
   
@@ -291,16 +292,82 @@ def zeropoint_quantize(X):
 
 
 
+---
+## Prompt Engineering
+* **In-context learning (ICL)**
+> In-context learning (ICL) is a specific method of prompt engineering where demonstrations of the task are provided to the model as part of the prompt (in natural language).
+
+> LLMs demonstrate an in-context learning (ICL) ability, that is, learning from a few examples in the context. Many studies have shown that LLMs can perform a series of complex tasks through ICL, such as solving mathematical reasoning problems.
+
+* **zero shot inference**
+```
+Classify this review:
+I love chelsea
+Sentiment:
+
+Answer: The sentiment of the review "I love Chelsea" is positive.
+```
+
+* **one/few shot inference**
+```
+Classify this review:
+I love chelsea.
+Sentiment: Positive
+
+Classify this review:
+I don't like Tottenham.
+Sentiment:
+
+Answer: The sentiment of the review "I don't like Tottenham" is negative.
+```
+```
+Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each van has 3 balls. How many tennis balls does he have now?
+A: The answer is 11.
+
+Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?
+A: The answer is 27.
+```
+
+> It is observed that standard prompting techniques (also known as general input-output prompting) do not perform well on complex reasoning tasks, such as arithmetic reasoning, commonsense reasoning, and symbolic reasoning.
+
+* **Chain-of-Thought Prompting**
+> CoT is an improved prompting strategy to boost the performance of LLMs such non-trivial cases involving reasoning.
+>
+> CoT incorporates intermediate reasoning steps that can lead to the final output into the prompts.
+<!--
+```
+Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each van has 3 balls. How many tennis balls does he have now?
+A: Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls. 5+6=11. The answer is 11.
+
+Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?
+A: The cafeteria had 23 apples originally. They used 20 to make lunch. So they had 23-20=3. They bought 6 more apples, so they have 3+6=9. The answer is 9.
+```
+-->
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*D4AEQft-b2VmXb07dIVONg.png">
+
+* **Zero-shot CoT**
+> In Zero-shot CoT, LLM is first prompted by “Let’s think step by step” to generate reasoning steps and then prompted by “Therefore, the answer is” to derive the final answer.
+>
+> They find that such a strategy drastically boosts the performance when the model scale exceeds a certain size, but is not effective with small-scale models, showing a significant pattern of emergent abilities.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*l7oj25kVU6ALI5IbBb2BUA.png">
+
+> While Zero-shot-CoT is conceptually simple, it uses prompting twice to extract both reasoning and answer, as explained in the figure below.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*VvezFJ4L5Ur1he-qT8scAg.png">
+
+> The process involves two steps: first “reasoning prompt extraction” to extract a full reasoning path from a language model, and then use the second “answer prompt extraction” to extract the answer in the correct format from the reasoning text.
+
+* **Self-consistency COT**
+* **Tree of thoughts**
+* **Self-Ask**
 
 
 
-
-
-
-
-
-
-
+---
+## Fine-Tuning
+1. In-context learning
+2. Feature Based Finetuning
+3. PEFT (Parameter Efficient Fine Tuning)
+4. RLHF (will be updated later)
 
 
 
