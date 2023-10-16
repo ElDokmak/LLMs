@@ -14,11 +14,14 @@
     * [Neural Modeling](#neural-language-modeling-nlm)
 * **[Evaluation of LMs](#evaluation-of-lms)**
 * **[Transformer-Based Language Models](#transformer-based-language-models)**
-* **[Refrences](#Refrences)**
 * **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
 * **[Computational challenges and Qunatization](#Computational-challenges-and-Qunatization)**
 * **[Prompt Engineering](#prompt-engineering)**
+   * [In-context Learning](#in-context-learning-icl)
+   * [Auto Prompt](#auto-prompt-techniques)
 * **[Fine-Tuning](#fine-tuning)**
+* **[Refrences](#Refrences)**
+
 
 
   
@@ -162,6 +165,7 @@ Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computatio
 
 > The Solution was found when the paper Attention is All You Need which introduced the Transformer architecture came to life.
 
+> [!NOTE]
 > Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
 
 
@@ -288,8 +292,8 @@ def zeropoint_quantize(X):
 
 -->
 
-### GPTQ, AutoGPTQ, GGML, Pruning, and Distillation
-> Explained in the directory **[Quantization](https://github.com/ElDokmak/LLMs/tree/main/Quantization)**
+> [!NOTE]
+> GPTQ, AutoGPTQ, GGML, Pruning, and Distillation explained in the directory **[Quantization](https://github.com/ElDokmak/LLMs/tree/main/Quantization)**
 
 
 
@@ -405,15 +409,55 @@ Auto-CoT consists of the following main stages:
 
 
 
-
 ---
 ## Fine-Tuning
-1. In-context learning
-2. Feature Based Finetuning
-3. PEFT (Parameter Efficient Fine Tuning)
-4. RLHF (will be updated later)
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*Hb_B_Kg7sHXjXNUAwKgSqg.png">
+
+### **1. In-context learning:** Explained [above](#in-context-learning-icl)
+### **2. Feature Based Finetuning**
+> When we have access to full LLM model.
+* There are 2 ways we can do this feature based finetuning:
+   - Updating only Output Layer.
+   - Updating all Layers (Full Finetuning )
+### **3. PEFT (Parameter Efficient Fine Tuning)**
+> PEFT tends to fine-tune a small number of (**extra**) parameters while maintaining pretrained parameters frozen.
+>
+> Which result in decreasing computational and storage costs.
+* **Types of PEFT:**
+   - **Adapters:**
+   > This module is added to the existing pretrained model . By inserting adapters after the multi-head attention and feed-forward layers in the transformer architecture, we can update only the parameters in the adapters during fine-tuning while keeping the rest of the model parameters frozen.
+   <img width="500" src="https://miro.medium.com/v2/resize:fit:633/0*Z2FMWTCmdkgevHr-.png">
+   
+   - **LoRA:**
+   > Freezing the pre-trained model weights and injecting trainable rank decomposition matrices into each layer of the transformer architecture which reduces number of trainable parameters .
+   <img width="500" src="https://global-uploads.webflow.com/63f3993d10c2a062a4c9f13c/64649977d084d2b4b66c6492_1*e5pYWjrZR3eA_YbCKu8deQ.png">
+
+   - **Prompt Tuning**
+   > Prompt tuning prepends the model input embeddings with a trainable tensor (known as “soft prompt”) that would learn the task specific details.
+   
+   > The prompt tensor is optimized through gradient descent. In this approach rest of the model architecture remains unchanged.
+   <img align="center" width="800" src="https://github.com/ElDokmak/LLMs-variety/assets/85394315/5b1dabc1-cf04-49e4-8e3e-c43f8be3bcb8">
 
 
+   - **Prefix Tuning**
+   > Prefix Tuning is a similar approach to Prompt Tuning. Instead of adding the prompt tensor to only the input layer, prefix tuning adds trainable parameters are prepended to the hidden states of all layers.
+   
+   > Soft prompts are parametrized through a feed-forward network and added to all the hidden states of all layers. Pre-trained transformer’s parameters are frozen and only the prefix’s parameters are optimized.
+   <img width="600" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/peft/prefix-tuning.png">
+   
+### **4. RLHF (will be updated later)**
+> In this approach LLM is finetuned using both supervised learning and reinforcement learning. It allows LLM to learn from human feedback.
+
+> RLHF can efficiently train LLMs with less labelled data and improve their performance on specific tasks.
+<img src="https://www.labellerr.com/blog/content/images/2023/06/bannerRELF.webp">
+
+> [!NOTE]
+> For further details about theory and implementation check the directory Fine-Tuning.
+---
+
+
+
+## 
 
 ---
 ## Refrences        
