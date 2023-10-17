@@ -461,26 +461,29 @@ Auto-CoT consists of the following main stages:
 
 ---
 ## Refrences        
-|                                                 Refrences                                                       |
-| :------------------------------------------------------------------------------------------------------------:  |
-|          [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)                                    | 
-|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                        | 
-|          [Towardsdatascience](https://towardsdatascience.com/)                                                  | 
-|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)                                   | 
-|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                                              | 
-|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)                                    | 
-|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                          | 
-|          [GPTQ](https://arxiv.org/abs/2210.17323)                                                               | 
-|          [GGML](https://github.com/ggerganov/ggml)                                                              | 
-|          [In-contextLearning](https://arxiv.org/abs/2301.00234)                                                 | 
-|          [Chain-of-Thought Prompting](https://arxiv.org/abs/2201.11903)                                         | 
-|          [SELF-CONSISTENCY](https://arxiv.org/abs/2203.11171)                                                   | 
-|          [Tree of Thoughts](https://arxiv.org/abs/2305.10601)                                                   | 
-|          [Automatic Prompt Augmentation and Selection with Chain-of-Thought](https://arxiv.org/abs/2302.12822)  | 
-|          [Automatic Chain of Thought Prompting](https://arxiv.org/abs/2210.03493)                               | 
-
-
-
+|                                                 Refrences                                                          |
+| :---------------------------------------------------------------------------------------------------------------:  |
+|          [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)                                       | 
+|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                           | 
+|          [Towardsdatascience](https://towardsdatascience.com/)                                                     | 
+|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)                                      | 
+|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                                                 | 
+|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)                                       | 
+|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                             | 
+|          [GPTQ](https://arxiv.org/abs/2210.17323)                                                                  | 
+|          [GGML](https://github.com/ggerganov/ggml)                                                                 | 
+|          [In-contextLearning](https://arxiv.org/abs/2301.00234)                                                    | 
+|          [Chain-of-Thought Prompting](https://arxiv.org/abs/2201.11903)                                            | 
+|          [SELF-CONSISTENCY](https://arxiv.org/abs/2203.11171)                                                      | 
+|          [Tree of Thoughts](https://arxiv.org/abs/2305.10601)                                                      | 
+|          [Automatic Prompt Augmentation and Selection with Chain-of-Thought](https://arxiv.org/abs/2302.12822)     | 
+|          [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2210.03493)                    | 
+|          [LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models](https://arxiv.org/abs/2309.12307) | 
+|          [Parameter-Efficient Fine-Tuning without Introducing New Latency](https://arxiv.org/abs/2305.16742)       | 
+|          [QLORA:EfficientFinetuningofQuantizedLLMs](https://arxiv.org/pdf/2305.14314.pdf)                          | 
+|          [The Power of Scale for Parameter-Efficient Prompt Tuning](https://arxiv.org/abs/2104.08691)              | 
+|          [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://arxiv.org/abs/2101.00190)           | 
+|          [QA-LORA:QUANTIZATION-AWARE LoRA](https://arxiv.org/pdf/2309.14717v2.pdf)                                 | 
 
 
 
