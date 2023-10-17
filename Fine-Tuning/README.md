@@ -19,6 +19,7 @@
 * rank-decomposition weight matrices are generally added to the attention layers of the original model.
 * The greater memory-efficiency allows you to run fine-tuning on consumer GPUs like the Tesla T4, RTX 4080 or even the RTX 3080 Ti! GPUs like the T4 are free and readily accessible in Kaggle or Google Colab notebooks.
 
+
 ### Implementation
 **1. Load the model and tokenizer**
 ```
@@ -32,6 +33,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 tokenizer = AutoTokenizer.from_pretrained("model_name")
 ```
+
 **2. LoRA configuration**
 ```
 from peft import LoraConfig, get_peft_model
@@ -47,6 +49,8 @@ config = LoraConfig(
 
 model = get_peft_model(model, config)     
 ```
+* For more about parameters selection check this [blog](https://www.anyscale.com/blog/fine-tuning-llms-lora-or-full-parameter-an-in-depth-analysis-with-llama-2)
+
 **3. Load dataset and create prompt template**
 ```
 from datasets import load_dataset
@@ -134,6 +138,9 @@ qa_model = PeftModel.from_pretrained(model, peft_model_id)
 >
 > For more check [huggingface](https://huggingface.co/docs/peft/conceptual_guides/lora)
 
+
+
+---
 ## QLoRA (Quantized Low Rank Adaption)
 
 
