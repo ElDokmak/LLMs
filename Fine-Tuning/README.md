@@ -20,7 +20,7 @@
 * The greater memory-efficiency allows you to run fine-tuning on consumer GPUs like the Tesla T4, RTX 4080 or even the RTX 3080 Ti! GPUs like the T4 are free and readily accessible in Kaggle or Google Colab notebooks.
 
 
-### Implementation
+### LoRA Implementation
 **1. Load the model and tokenizer**
 ```
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -141,8 +141,122 @@ qa_model = PeftModel.from_pretrained(model, peft_model_id)
 
 
 ---
-## QLoRA (Quantized Low Rank Adaption)
+## QLoRA (Quantized LLMs and Low Rank Adaption)
+<img src="https://miro.medium.com/v2/resize:fit:1400/0*oV_KwvWnFYzuWzlz.png">
+
+> **QLoRA**, is a technique that helps in training and fine-tuning large language models (LLMs) on regular computers with limited memory. It addresses the challenge of memory requirements when working with these models.
+>
+> The key idea behind QLoRA is to make LLMs more efficient by reducing their memory usage while maintaining reliable performance. It achieves this through several steps: by introducing 4-bit quantization, a new data type called 4-bit NormalFloat (NF4), double quantization, and paged optimizers.
+
+* **4-bit quantization:**
+  - 4-bit quantization of weights and apply PEFT, inject LoRA adapters in each layer in 32-bit precision, and start to fine-tune the complete Language model on a specific task, **for the quantized configuration to reduce the quantization error of the system.**
+  - Perform additionally a mixed precision training to balance the trade-off between accuracy and speed/memory usage.
+  - QLoRA has one storage data type (NF4) and a computation data type (16-bit BrainFloat).
+  - We dequantize the storage data type to the computation data type to perform the forward and backward pass, **but we only compute weight gradients for the LoRA parameters which use 16-bit BrainFloat.**
+* **Double Quantization:**
+  - This is a technique that combines 4-bit quantization with 8-bit quantization to further reduce the memory footprint.
+  - By applying a second quantization to the quantization constants, the memory footprint of these constants can be significantly reduced. 
+* **Paged Optimizers:**
+  - This allows QLoRa to use more memory than is available on a single GPU by paging in and out data as needed.
+
+### QLoRA Implementation
+**1. Load the model and apply 4bit quantization**
+```
+import transformers
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import BitsAndBytesConfig, TrainingArguments
+
+quantization_config = BitsAndBytesConfig(
+        load_in_4bit = True,
+        bnb_4bit_quant_type = "nf4", # as explained we use 4bit for the pretrained weights while using BF-16 for computations.
+        bnb_4bit_compute_dtype = torch.float16,
+)
+
+model_name = "Enter your model name"
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    use_safetensors = True,
+    quantization_config = quantization_config,
+    trust_remote_code = True,
+    device_map = 'auto',
+)
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+```
+
+**2. LoRA configuration**
+```
+from peft import LoraConfig, get_peft_model
+
+peft_config = LoraConfig(
+    r=16,
+    lora_alpha = 64,
+    lora_dropout = 0.1,
+    target_modules = ["q_proj", "up_proj", "o_proj", "k_proj", "down_proj", "gate_proj", "v_proj",],
+    bias = "none",
+    task_type = "CAUSAL_LM",
+)
+```
+
+**3. Load dataset and create prompt**
+```
+from datasets import load_dataset, Dataset
+
+dataset = load_dataset()
+```
+
+**4. Training aruguments and trainer**
+```
+import transformers
+from transformers import TrainingArguments
+from trl import SFTTrainer
 
 
+training_arguments = TrainingArguments(
+    per_device_train_batch_size=4,
+    gradient_accumulation_steps=4,
+    optim="paged_adamw_32bit",
+    logging_steps=1,
+    learning_rate=1e-4,
+    fp16=True,
+    max_grad_norm=0.3,
+    num_train_epochs=2,
+    evaluation_strategy="steps",
+    eval_steps=0.2,
+    warmup_ratio=0.05,
+    save_strategy="epoch",
+    group_by_length=True,
+    output_dir=OUTPUT_DIR,
+    report_to="tensorboard",
+    save_safetensors=True,
+    lr_scheduler_type="cosine",
+    seed=42,
+)
 
+trainer = SFTTrainer(
+    model=model,
+    train_dataset=dataset["train"],
+    eval_dataset=dataset["validation"],
+    peft_config=peft_config,
+    dataset_text_field="text",
+    max_seq_length=4096,
+    tokenizer=tokenizer,
+    args=training_arguments,
+)
 
+trainer.train()
+```
+
+**5. Load model, inference and apply merge_and_unload() as discussed above**
+```
+from peft import AutoPeftModelForCausalLM
+
+trained_model = AutoPeftModelForCausalLM.from_pretrained(
+    OUTPUT_DIR,
+    low_cpu_mem_usage=True,
+)
+
+merged_model = model.merge_and_unload()
+merged_model.save_pretrained("merged_model", safe_serialization=True)
+tokenizer.save_pretrained("merged_model")
+```
