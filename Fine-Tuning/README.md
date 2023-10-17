@@ -1,3 +1,9 @@
+# Content
+* **[LoRA](#lora-low-rank-adaption-for-llms)**
+* **[QLoRA](#qlora-quantized-llms-and-low-rank-adaption)**
+* **[QA LoRA](#qa-lora-quantized-aware-low-rank-adaption)**
+* **LongLoRA**
+
 ## LoRA (Low Rank Adaption for LLMs)
 > LoRA is a training method that accelerates the training of large language models while consuming less memory. It adds pairs of trainable rank-decomposition weight matrices (Called Update matrices) to existing weights, and only trains those newly added added weights.
 
@@ -260,3 +266,26 @@ merged_model = model.merge_and_unload()
 merged_model.save_pretrained("merged_model", safe_serialization=True)
 tokenizer.save_pretrained("merged_model")
 ```
+
+### QLoRA summary
+* The original pre-trained weights are quantized to 4-bit and kept frozen. Then a small number of trainable parameters in the form of low-rank adpters are introduced during fine-tuning. These adapters are trained to adapt the pre-trained model to specific task in fp32 or bf16.
+* When it comes to computations the 4-bit quantized weights are dequantized back to fp32.
+* After fine-tuning the model consists of the original weights in 4-bit and the additional low-rank adapters in their higher precision format.
+* The adpaters are in higher format for a few reasons:
+  - Higher precision allows the model to capture more subtle patterns in the data. This is important for the low-rank adapters, as they are responsible for adapting the pre-trained model to the specific task it is being fine-tuned for.
+  - Higher precision formats ensures that updates are accurately captured.
+  - Computations with 32-bit can be faster than with lower precision.
+* QLoRA backpropagates gradients through a frozen, 4-bit quantized pretraining language model into low rank adpaters (LoRA).  
+
+
+---
+## QA LoRA (Quantized Aware Low Rank Adaption)
+
+
+    
+### The following image shows the difference between the 3-methods 
+<img src="https://github.com/yuhuixu1993/qa-lora/raw/main/image/qalora.png">
+
+
+
+
