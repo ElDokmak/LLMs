@@ -355,10 +355,33 @@ factors**, respectively; ⌊·⌉ denotes the integer rounding operation. All el
 
 
 ---
-## Long LoRA
+## LongLoRA
+An efficient fine-tuning approach that extends the context sizes of pre-trained large language models (LLMs), with limited computation cost
+
+* LoRA modifies the linear projection layers in self-attention blocks by utilizing low-rank matrices, which are generally efficient and reduce the number of trainable parameters.
+However, for long context this is neither sufficiently effective nor efficient.
+  * In terms of effectiveness, plain low-rank adaptation results in a high perplexity in long context extension.
+  * In terms of efficiency, regardless of whether LoRA is employed or not, computational cost increases dramatically as the context size expands, primarily due to the standard self-attention mechanism.
+
+* The attention layer is the main bottlenech is scaling to longer sequences, as its runtime and memory increase quadratically is the sequence length. So LongLoRA proposed **S2-Attention (Shift Short Attention)** an effective approach that shifts the start and end points of the groups by half the group size, each shifted group overlaps with half of the previous group and half of the next group. This overlap ensures information exchange between adjacent groups. This shift ensures information exchange between adjacent groups. (Look at the following image)
+<img src="https://github.com/ElDokmak/LLMs/assets/85394315/365ca8cc-58c4-47aa-84df-8ca192d76b93">
+
+* Shift short attention involves three steps. First, it splits features along the head dimension into two chunks. Second, tokens in one of the chunks are shifted by half of the group size. Third, we split tokens into groups and reshape them into batch dimensions.
+* Another approach that LongLoRA proposed was making embedding and normalization layers trainable.
+<img src="https://github.com/ElDokmak/LLMs/assets/85394315/f986635a-9dde-4234-99aa-a3c92e0919f1">
+
+> [!NOTE]
+> LoRA  + making embedding and normalization layers trainable = LoRA+
+> S2-Attention + LoRA+ = LongLoRA
+
+### Performance of LongLoRA
+<img src="https://github.com/ElDokmak/LLMs/assets/85394315/36b52322-5e0b-4d07-abe1-184c4390a314">
+In term of Training hours LongLoRA has achieved significan improvement than LoRA and Full FT.
 
 
-
-
-
-
+some notes: 
+Flash attention2: It allows Transformers to handle longer sequences without using as much memory or taking as much time (Optimize process management inside GPU)
+FA2 is a computation optimization, specifically designed to enhance GPU processing performance.
+* Scalling Transformers to longer sequence length (which improves the performance) has been a major problem. **As a solution Long LoRA has been introduced**
+* Solution 1: If we fine-tune it in the classical way, the compute complexity is n square, making it very expensive to fine-fine, and will take a long time for 100K.
+* Solutino 2: If we fine-tune it with compute complexity < n square.
