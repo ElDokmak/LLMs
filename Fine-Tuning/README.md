@@ -1,7 +1,7 @@
 # Content
 * **[LoRA](#lora-low-rank-adaption-for-llms)**
 * **[QLoRA](#qlora-quantized-llms-and-low-rank-adaption)**
-* **[QA LoRA](#qa-lora-quantized-aware-low-rank-adaption)**
+* **[QA-LoRA](#qa-lora-quantization-aware-low-rank-adaptation)**
 * **LongLoRA**
 
 ## LoRA (Low Rank Adaption for LLMs)
@@ -268,7 +268,7 @@ tokenizer.save_pretrained("merged_model")
 ```
 
 ### QLoRA summary
-* The original pre-trained weights are quantized to 4-bit and kept frozen. Then a small number of trainable parameters in the form of low-rank adpters are introduced during fine-tuning. These adapters are trained to adapt the pre-trained model to specific task in FP16.
+* The original pre-trained weights are quantized into 4-bit and kept frozen. Then a small number of trainable parameters in the form of low-rank adpters are introduced during fine-tuning. These adapters are trained to adapt the pre-trained model to specific task in FP16.
 * When it comes to computations the 4-bit quantized weights are dequantized back to FP16.
 * After fine-tuning the model consists of the original weights in 4-bit and the additional low-rank adapters in their higher precision format.
 * The adpaters are in higher format for a few reasons:
@@ -286,10 +286,10 @@ tokenizer.save_pretrained("merged_model")
 
 > The motivation behind QA-LoRA lies in the imbalanced degrees of freedom of quantization and adaptation. Specifically, each column of the pre-trained weight
 matrix is accompanied by only one pair of scaling and zero parameters (explained [here](https://github.com/ElDokmak/LLMs/edit/main/Fine-Tuning/README.md#min-max-quantization)) but many more LoRA parameters. This imbalance not only results in large quantization errors but also makes it difficult to integrate the auxiliary weights into the main model. 
->> Solution: is to use use group-wise operators which increase the degree of freedom of quantization meanwhile decreasing that of adaptation.
+>> **Solution:** is to use use **group-wise operators** which increase the degree of freedom of quantization meanwhile decreasing that of adaptation.
 >
-> QA-LoRA equips the original LoRA with two-fold abilities: (i) during fine-tuning, the LLM’s weights are quantized
-(e.g., into INT4) to reduce time and memory usage; (ii) after fine-tuning, the
+> QA-LoRA equips the original LoRA with two-fold abilities: **(i)** during fine-tuning, the LLM’s weights are quantized
+(e.g., into INT4) to reduce time and memory usage; **(ii)** after fine-tuning, the
 LLM and auxiliary weights are naturally integrated into a quantized model without loss of accuracy without the need for PTQ which often incurs loss of accuracy..
 
 > To get things together **our goal is to have a final quantized model out of the fine-tuning process without the need of PTQ** like in (LoRA and QLoRA) which results in unsatisfying accuracy especially when
@@ -343,12 +343,19 @@ factors**, respectively; ⌊·⌉ denotes the integer rounding operation. All el
 > **Impact of the size of fine-tuning datasets:**
 > Low-bit quantization asks for more data.
 
+### QA-LoRA summary
+* The original pre-trained weights are quantized into INT4.
+* W is partitioned into L groups.
+* Row vectors of A within the same group have to be identical. 
+* Individual scaling and zero factors are used for quantization within each group.
+* Summation within each group of the input vector, x.
+* Parameter-free operation reduces the dimension of x from Din to L, hence we can set A to be a L × Dint
+* After fine-tuning we have a quantized model without the need of PTQ.
 
 
 
-
-
-
+---
+## Long LoRA
 
 
 
