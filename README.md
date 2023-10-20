@@ -21,6 +21,7 @@
    * [Auto Prompt](#auto-prompt-techniques)
 * **[Fine-Tuning](#fine-tuning)**
 * **[Refrences](#Refrences)**
+* **[RAG (Retrieval-Augmented Generation)]()**
 
 
 
@@ -457,7 +458,34 @@ Auto-CoT consists of the following main stages:
 
 
 
-## 
+## RAG (Retrieval-Augmented Generation)
+Retrieval-augmented generation is a technique used in natural language processing that combines the power of both retrieval-based models and generative models to enhance the quality and relevance of generated text.
+<img src="https://towhee.io/assets/img/task/retrieval-augmented-generation.png">
+
+* Retrieval-augmented generation has 2 main componenets:
+   - **Retrieval models:** These models are designed to retrieve relevant information from a given set of documents or a knowledge base. (for further details check Information Retrieval Lecture from Stanford [here](https://web.stanford.edu/class/cs224u/slides/cs224u-neuralir-2023-handout.pdf))
+   - **Generative models:** Generative models, on the other hand, are designed to generate new content based on a given prompt or context.
+
+Retrieval-augmented generation combines these two approaches to overcome their individual limitations. 
+In this framework, a retrieval-based model is used to retrieve relevant information from a knowledge base or a set of documents based on a given query or context. 
+The retrieved information is then used as input or additional context for the generative model. 
+The generative model can leverage the accuracy and specificity of the retrieval-based model to produce more relevant and accurate text. 
+It helps the generative model to stay grounded in the available knowledge and generate text that aligns with the retrieved information.
+
+* **Building your own RAG engine:**
+There are a few solutions out there where you can test building your own RAG engine Langchain and llama-index are the most recommended (You will find notebooks of how to do that in LangChain and llama-index  directories and also u will find the work flow explained in LangChain part)
+
+### The technical implementation of RAG with LLMs
+1. **Source data:** This data serves as the knowledge reservoir that the retrieval model scans through to find relevant information.
+2. **Data chunking:** Data is divided into manageable “chunks” or segments. This chunking process ensures that the system can efficiently scan through the data and enables quick retrieval of relevant content.
+3. **Text-to-vector conversion (Embeddings):** Converting the textual data into a format that the model can readily use. When using a vector database, this means transforming the text into mathematical vectors via a process known as “embedding.”
+4. **Links between source data and embeddings:** The link between the source data and embeddings is the linchpin of the RAG architecture. A well-orchestrated match between them ensures that the retrieval model fetches the most relevant information, which in turn informs the generative model to produce meaningful and accurate text.
+
+
+
+---
+##
+  
 
 ---
 ## Refrences        
