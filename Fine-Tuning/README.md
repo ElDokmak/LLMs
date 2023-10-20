@@ -2,8 +2,11 @@
 * **[LoRA](#lora-low-rank-adaption-for-llms)**
 * **[QLoRA](#qlora-quantized-llms-and-low-rank-adaption)**
 * **[QA-LoRA](#qa-lora-quantization-aware-low-rank-adaptation)**
-* **LongLoRA**
+* **[LongLoRA](#longlora)**
 
+
+
+---
 ## LoRA (Low Rank Adaption for LLMs)
 > LoRA is a training method that accelerates the training of large language models while consuming less memory. It adds pairs of trainable rank-decomposition weight matrices (Called Update matrices) to existing weights, and only trains those newly added added weights.
 
@@ -372,16 +375,21 @@ However, for long context this is neither sufficiently effective nor efficient.
 
 > [!NOTE]
 > LoRA  + making embedding and normalization layers trainable = LoRA+
+> 
 > S2-Attention + LoRA+ = LongLoRA
+> 
+> FA2 (Flash attention 2) is also applied: It allows Transformers to handle longer sequences without using as much memory or taking as much time.
+>> FA2 is a computation optimization, specifically designed to enhance GPU processing performance (Optimize process management inside GPU).
 
 ### Performance of LongLoRA
 <img src="https://github.com/ElDokmak/LLMs/assets/85394315/36b52322-5e0b-4d07-abe1-184c4390a314">
+
 In term of Training hours LongLoRA has achieved significan improvement than LoRA and Full FT.
 
-
-some notes: 
-Flash attention2: It allows Transformers to handle longer sequences without using as much memory or taking as much time (Optimize process management inside GPU)
-FA2 is a computation optimization, specifically designed to enhance GPU processing performance.
-* Scalling Transformers to longer sequence length (which improves the performance) has been a major problem. **As a solution Long LoRA has been introduced**
-* Solution 1: If we fine-tune it in the classical way, the compute complexity is n square, making it very expensive to fine-fine, and will take a long time for 100K.
-* Solutino 2: If we fine-tune it with compute complexity < n square.
+### Summary of key components of LongLoRA
+1. S2-Attn (Shift Short Attention).
+2. Maintaining original attention architecture.
+3. Learnable Embeddings and Normalization layers.
+4. Flash Attention.
+5. LongLoRA uses RoPE (Rotary Position Embedding).
+---
