@@ -285,7 +285,7 @@ tokenizer.save_pretrained("merged_model")
 
 ---
 ## QA-LoRA (Quantization-Aware Low-Rank Adaptation)    
-<img src="https://github.com/yuhuixu1993/qa-lora/raw/main/image/qalora.png">
+<img src="https://pbs.twimg.com/media/F7lJvyUXIAAfzzB?format=jpg&name=large">
 
 > The motivation behind QA-LoRA lies in the imbalanced degrees of freedom of quantization and adaptation. Specifically, each column of the pre-trained weight
 matrix is accompanied by only one pair of scaling and zero parameters (explained [here](https://github.com/ElDokmak/LLMs/edit/main/Fine-Tuning/README.md#min-max-quantization)) but many more LoRA parameters. This imbalance not only results in large quantization errors but also makes it difficult to integrate the auxiliary weights into the main model. 
