@@ -21,9 +21,7 @@ Your task is to rewrite the text to be gramatically correct. \
 Sample text: ```{sample_text}``` \
 Output: 
 """
-prompt_template = PromptTemplate.from_template(
-  template = template
-)
+prompt_template = PromptTemplate.from_template(template = template)
 
 sample_text = "Me likes cats not dogs. They jumps high so much!"
 
@@ -70,14 +68,10 @@ Sample text: ```{sample_text}``` \
 Output: 
 """
 
-prompt_template = PromptTemplate.from_template(
-    template=template
-)
+prompt_template = PromptTemplate.from_template(template=template)
 
 sample_text = "Me likes cats not dogs. They jumps high so much!"
-final_prompt = prompt_template.format(
-    sample_text=sample_text
-)
+final_prompt = prompt_template.format(sample_text=sample_text)
 
 completion = llm(final_prompt)
 print(completion)
@@ -121,7 +115,8 @@ embedded_text = embeddings.embed_query(text)
 print(embedded_text)
 ```
 
-
+## Parsers
+Outpus Parsers help get structure responses.
 
 ---
 ## 
