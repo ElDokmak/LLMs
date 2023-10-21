@@ -20,9 +20,10 @@
    * [In-context Learning](#in-context-learning-icl)
    * [Auto Prompt](#auto-prompt-techniques)
 * **[Fine-Tuning](#fine-tuning)**
+* **[RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation)**
+* **[LangChain](#building-applications-with-langchain)**
+* **[LLMs Evaluation]()**
 * **[Refrences](#Refrences)**
-* **[RAG (Retrieval-Augmented Generation)]()**
-
 
 
   
@@ -484,8 +485,148 @@ There are a few solutions out there where you can test building your own RAG eng
 
 
 ---
-##
+## Building applications with LangChain
+LangChain is an opne-source framework designed to create applications using LLMs (Large Language Models), langchain has 6 building blocks as shown in the following image.
+
+<img src="https://cdn.packtpub.com/article-hub/articles/1fa9ece7-b109-40cd-84ab-9c739955ae2a_image.png">
+
+* **Prerequisites**
+```
+!pip install -q langchain, openai
+```
+```
+import openai, os
+os.environ["OPENAI_API_KEY"] = "Your-API-Key" 
+# or an alternative
+openai.api_key = "Enter Your OpenAI key"
+```
+
+1. **Models**   
+LangChain serves as a standard interface that allows for interactions with a wide range of Large Language Models (LLMs).
+<img src="https://miro.medium.com/v2/resize:fit:786/format:webp/1*2ZVRlCJMvg6HmM_OwL8P_Q.png">
+
+```
+from langchain.llms import OpenAI
+llm = OpenAI(temperature=0.8)
+Question = "What is the capital of Egypt?"
+print(llm(Question))
+```
+
+2. **Prompts**   
+A prompt refers to the statement or question provided to the LLM to request information.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*6q8_6ZjOWb58z3hhprzwpA.png">
+
+```
+from langchain.prompts import PromptTemplate
+
+prompt = PromptTemplate(
+   input_variables= ["input"],
+   template = "What is the {input} of Egypt?",
+)
+print(prompt.format(input = "capital"))
+```
+
+3. **Chains**   
+While using a single LLM may be sufficient for simpler tasks, LangChain provides a standard interface and some commonly used implementations for chaining LLMs together for more complex applications, either among themselves or with other specialized modules. Or you can think simple chain can be defined as sequence of calls.
+```
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+
+llm = OpenAI(temperature = 0.8)
+
+prompt = PromptTemplate(
+   input_variables= ["input"],
+   template = "What is the largest {input} in the world?",
+)
+
+chain = LLMChian(llm = llm, prompt = prompt)
+
+chain.run("USA")
+
+chain.run("Germany")
+``` 
+
+4. **Memory**   
+The Memory module in LangChain is designed to retain a concept of the state throughout a user’s interactions with a language model.
+<img width="700" src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*rzrU35NvfzbmZpWhKirBlQ.png">
+
+```
+from langchain.memory import ConversationBufferMemory
+
+memory = ConversationBufferMemory()
+memory.save_context(
+   {"input": "Describe LSTM"},
+   {"output": "LSTM is a type of recurrent neural network architecture that is widely used for sequential and time series data processing."}
+)
+
+memory.load_memory_variables({})
+```
+```
+from langchain import ConversationChain, OpenAI, PromptTemplate, LLMChain
+from langchain.memory import ConversationBufferWindowMemory
+
+# Creating LLM template
+template = """Assistant is a large language model trained by OpenAI.
+
+{history}
+Human: {human_input}
+Assistant:"""
+
+prompt = PromptTemplate(input_variables=["history", "human_input"], template= template)
+
+chat_chain = LLMChain(
+   llm= OpenAI(openai_api_key= "YOUR-API-KEY",temperature=0),
+   rompt= prompt,
+   verbose= True,
+   memory= ConversationBufferWindowMemory(k= 2),
+)
+
+output = chat_chain.predict(
+   human_input= "What is the capital of Egypt?"
+)
+
+print(output)
+```
+
+* **Types of Memory**
+<img width="500" src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*0MCopUF4PSnXbTnncNq_5w.png">
+
+5. **Agents**   
+The core idea of agents is to use an LLM to choose a sequence of actions to take. In chains, a sequence of actions is hardcoded (in code). In agents, a language model is used as a reasoning engine to determine which actions to take and in which order.
+```
+from langchain.agents import load_tools, initialize_agent, AgentType
+from langchain.chat_models import ChatOpenAI
+
+llm = ChatOpenAI(temperature= 0)
+tools = load_tools(["llm-math","wikipedia"], llm=llm)
+
+agent= initialize_agent(
+    tools, 
+    llm, 
+    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    handle_parsing_errors=True,
+    verbose = True
+)
+
+agent("What is the 10% of 400?")
+```
   
+6. **Indexes**   
+Indexes refer to ways to structure documents so that LLMs can best interact with them.
+Most of the time when we talk about indexes and retrieval we are talking about indexing and retrieving data. 
+The primary index and retrieval types supported by LangChain are currently centered around vector databases, and therefore a lot of the functionality we dive deep on those topics.
+
+   - **Document Loaders:** Classes responsible for loading documents from various sources.
+   - **Text Splitters:** Classes responsible for splitting text into smaller chunks.
+   - **VectorStores:** The most common type of index. One that relies on embeddings.
+   - **Retrievers:** Interface for fetching relevant documents to combine with language models.
+
+> [!NOTE]
+> You will find further details in LangChain directory
+
+
+
 
 ---
 ## Refrences        
