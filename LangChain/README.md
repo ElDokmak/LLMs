@@ -1,5 +1,6 @@
 # Content
 * **[Language models/ Prompts/ Output parsers](#models-prompts-output-parsers)**
+* **[Chains](#chains)**
 
 
 
@@ -117,11 +118,102 @@ print(embedded_text)
 
 ## Parsers
 Outpus Parsers help get structure responses.
+```
+gift_schema = ResponseSchema(
+    name = "gift",
+    description="Was the item purchased\
+    as a gift or somene else?\
+    Answer True if yes,\
+    False if not or unknown."
+)
+
+delivery_days_schema = ResponseSchema(
+    name = "delivery_days",
+    description = "How many days\
+    did it take for the product\
+    to arrive? If this \
+    information is not found,\
+    output -1."
+)
+
+price_value_schema = ResponseSchema(
+    name="price_value",
+    description="Extract any\
+    sentences about the value or \
+    price, and output them as a \
+    comma separated Python list."
+)
+
+response_schemas = [
+    gift_schema,
+    delivery_days_schema,
+    price_value_schema
+]
+
+output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
+format_instructions = output_parser.get_format_instructions()
+print(format_instructions)
+```
+
+
 
 ---
-## 
+## ***Chains***
+While using a single LLM may be sufficient for simpler tasks, LangChain provides a standard interface and some commonly used implementations for chaining LLMs together for more complex applications, either among themselves or with other specialized modules. Or you can think simple chain can be defined as sequence of calls.
+
+### **Types of chains:**
+- **LLMChain:** Simple chain that consists of PromptTemplate and model
+```
+from langchain import PromptTemplate, OpenAI, LLMChain
+
+prompt_template = "What is capital of {country}?"
+llm = OpenAI(temperature = 0)
+llm_chain = LLMChain(
+  llm = llm,
+  prompt = PromptTemplate.from_template(prompt_template)
+)
+
+llm_chain("Egypt")
+```
+- **Sequential Chains:** Combine multiple chains where the output of one chain is the input of the next one.
+  - **There are 2 types:**
+    1. __SimpleSequentialChain:__ Single input/ output
+    2. __SequentialChain:__ Multiple inputs/ outputs
+
+```
+from langchain.chains import SimpleSequentialChain
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+
+llm = ChatOpenAI(temperature=0.9)
 
 
+# Prompt1
+first_prompt = ChatPromptTemplate.from_template(
+    "What is the capital of {country}?"
+)
+chain_one = LLMChain(llm= llm, prompt = first_prompt)
+
+# prompt2
+second_prompt = ChatPromptTemplate.from_template(
+    "Write a 20 words description for the following \
+    country: {capital}"
+)
+chain_two = LLMChain(llm= llm, prompt=second_prompt)
+
+# Simple sequential chain
+simple_chain = SimpleSequentialChain(
+    chains = [chain_one, chain_two],
+    verbose = True   # This line shows the process
+)
+
+simple_chain.run("Egypt")
+```
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*jJE0uZTBadEYqe0hEXlWuQ.png">
+
+- **Router Chain**
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*d_7dKnR9W2NwSwq5S5DN1g.png">
 
 
 
