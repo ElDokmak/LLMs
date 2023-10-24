@@ -51,7 +51,7 @@ this process is repeated until the model reaches an acceptable level of accuracy
 ---
 ## Types of Language Models?
 ## **Statistical Language Modeling:**
-> Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
+Statistical LM is the development of probabilistic models that predict the next word in a sentece given the words the precede it.
 
 
 ### N-gram Language Models: 
@@ -121,7 +121,7 @@ NLM mainly use RNNs (/LSTMs/GRUs)
 
 
 ### RNN’s (Recurrent Neural Networks):
-> A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. In effect, an RNN is a type of neural network that has an internal loop.
+A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. In effect, an RNN is a type of neural network that has an internal loop.
 
 RNNs solve the sparsity problem
 <img src="https://stanford.edu/~shervine/teaching/cs-230/illustrations/architecture-rnn-ltr.png?9ea4417fc145b9346a3e288801dbdfdc">
@@ -137,7 +137,7 @@ RNNs solve the sparsity problem
 
 
 ### LSTMs (Long Short Term Memory networks)
-> LSTMs are a special kind of RNN, capable of learning long-term dependencies.
+LSTMs are a special kind of RNN, capable of learning long-term dependencies.
 <img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/12/10131302/13.png">
 
 LSTM is made up of 3 gates.
@@ -150,12 +150,11 @@ LSTM is made up of 3 gates.
 ---
 ## Evaluation of LMs
 ### Extrinsic Evaluation
-> Extrinsic evaluation is the best way to evaluate the performance of a language model by embedding it in an application and measuring how much the application improves.
-
-End-to-end evaluation where we can understand if a particular improvement in a component is really going to help the task at hand, however it's time consuming
+Extrinsic evaluation is the best way to evaluate the performance of a language model by embedding it in an application and measuring how much the application improves. End-to-end evaluation where we can understand if a particular improvement in a component is really going to help the task at hand, however it's time consuming
 
 ### Intrinsic Evaluation
-> An intrinsic evaluation metric is one that measures the quality of a model-independent of any application.
+An intrinsic evaluation metric is one that measures the quality of a model-independent of any application.
+
 * Perplexity: It is a measure of how well a probability model predicts a sample.
 Perplexity is the inverse of probability and lower perplexity is better
 
@@ -165,7 +164,7 @@ Perplexity is the inverse of probability and lower perplexity is better
 ## Transformer-Based Language Models
 Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computations due to sequential processing, and they can't capture contextual information for longer sequences.
 
-> The Solution was found when the paper Attention is All You Need which introduced the Transformer architecture came to life.
+* The Solution was found when the paper Attention is All You Need which introduced the Transformer architecture came to life.
 
 > [!NOTE]
 > Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
@@ -173,22 +172,19 @@ Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computatio
 
 ### Encoder: 
 It is a bidirectional transformer network that encodes inputs, it takes in text, produces a feature vector representation for each word in the sentence.
-> Encoder Models: Masked Language Modeling (auto-encoders) like BERT, ALBERT, ....etc.
->
-> Use cases: Sentiment analysis, NER, and Word classification
+- Encoder Models: Masked Language Modeling (auto-encoders) like BERT, ALBERT, ....etc.
+- Use cases: Sentiment analysis, NER, and Word classification
 
 
 ### Decoder: 
 It is a uni-directional transformer network that generates output.
-> Decoder Models: Causal Language Modeling (Autoregressive) like GPT, BLOOM.
->
-> Use cases: Text generation.
+- Decoder Models: Causal Language Modeling (Autoregressive) like GPT, BLOOM.
+- Use cases: Text generation.
 
 
 ### Encoder + Decoder Models:
-> Span corruption modes like T5, BART.
->
-> Use cases: Translation, Text summarization, and Question answering.
+- Span corruption modes like T5, BART.
+- Use cases: Translation, Text summarization, and Question answering.
 
 
 
@@ -212,11 +208,9 @@ It is a uni-directional transformer network that generates output.
 
 ---
 ## Computational challenges and Qunatization
-> Approximate GPU RAM needed to store/train 1B parameters
-
-> To store 1 parameter = 4 bytes(FP32) --> 1B parameters = 4GB 
->
-> To train 1 parameter = 24 bytes(FP32) --> 1B paramters = 80GB
+- Approximate GPU RAM needed to store/train 1B parameters
+   - To store 1 parameter = 4 bytes(FP32) --> 1B parameters = 4GB 
+   - To train 1 parameter = 24 bytes(FP32) --> 1B paramters = 80GB
 
 This huge usage of GPU RAM will result in Out Of Memory problem: as a solution **Quantization** was introduced
 
@@ -228,13 +222,13 @@ The following image shows how to store paramters using different data types:
 
 ### Types of Quantization
 1. **Post-Training Quantization (PTQ)**
-   > Is a straightforward technique where the weights of an already trained model are converted to lower precision without necessitating any retraining.
-   > Although easy to implement, PTQ is associated with potential performance degradation.
+   - Is a straightforward technique where the weights of an already trained model are converted to lower precision without necessitating any retraining.
+   - Although easy to implement, PTQ is associated with potential performance degradation.
    
-   > We will focus on PTQ only.
 2. **Quantization-Aware Training (QAT)**
-   > incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
+   - incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
 
+> We will focus on PTQ only.
 
 <!--
 ### 🔰 Naïve 8-bit Quantization
@@ -417,40 +411,39 @@ Auto-CoT consists of the following main stages:
 
 ### **1. In-context learning:** Explained [above](#in-context-learning-icl)
 ### **2. Feature Based Finetuning**
-> When we have access to full LLM model.
+When we have access to full LLM model.
 * There are 2 ways we can do this feature based finetuning:
    - Updating only Output Layer.
    - Updating all Layers (Full Finetuning )
+     
 ### **3. PEFT (Parameter Efficient Fine Tuning)**
-> PEFT tends to fine-tune a small number of (**extra**) parameters while maintaining pretrained parameters frozen.
->
-> Which result in decreasing computational and storage costs.
+PEFT tends to fine-tune a small number of (**extra**) parameters while maintaining pretrained parameters frozen. 
+Which result in decreasing computational and storage costs.
 * **Types of PEFT:**
    - **Adapters:**
-   > This module is added to the existing pretrained model . By inserting adapters after the multi-head attention and feed-forward layers in the transformer architecture, we can update only the parameters in the adapters during fine-tuning while keeping the rest of the model parameters frozen.
+     This module is added to the existing pretrained model . By inserting adapters after the multi-head attention and feed-forward layers in the transformer architecture, we can update only the parameters in the adapters during fine-tuning while keeping the rest of the model parameters frozen.
    <img width="500" src="https://miro.medium.com/v2/resize:fit:633/0*Z2FMWTCmdkgevHr-.png">
    
    - **LoRA:**
-   > Freezing the pre-trained model weights and injecting trainable rank decomposition matrices into each layer of the transformer architecture which reduces number of trainable parameters .
+     Freezing the pre-trained model weights and injecting trainable rank decomposition matrices into each layer of the transformer architecture which reduces number of trainable parameters .
    <img width="500" src="https://global-uploads.webflow.com/63f3993d10c2a062a4c9f13c/64649977d084d2b4b66c6492_1*e5pYWjrZR3eA_YbCKu8deQ.png">
 
    - **Prompt Tuning**
-   > Prompt tuning prepends the model input embeddings with a trainable tensor (known as “soft prompt”) that would learn the task specific details.
+     Prompt tuning prepends the model input embeddings with a trainable tensor (known as “soft prompt”) that would learn the task specific details.
    
-   > The prompt tensor is optimized through gradient descent. In this approach rest of the model architecture remains unchanged.
+      - The prompt tensor is optimized through gradient descent. In this approach rest of the model architecture remains unchanged.
    <img align="center" width="800" src="https://github.com/ElDokmak/LLMs-variety/assets/85394315/5b1dabc1-cf04-49e4-8e3e-c43f8be3bcb8">
 
 
    - **Prefix Tuning**
-   > Prefix Tuning is a similar approach to Prompt Tuning. Instead of adding the prompt tensor to only the input layer, prefix tuning adds trainable parameters are prepended to the hidden states of all layers.
+     Prefix Tuning is a similar approach to Prompt Tuning. Instead of adding the prompt tensor to only the input layer, prefix tuning adds trainable parameters are prepended to the hidden states of all layers.
    
-   > Soft prompts are parametrized through a feed-forward network and added to all the hidden states of all layers. Pre-trained transformer’s parameters are frozen and only the prefix’s parameters are optimized.
+      - Soft prompts are parametrized through a feed-forward network and added to all the hidden states of all layers. Pre-trained transformer’s parameters are frozen and only the prefix’s parameters are optimized.
    <img width="600" src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/peft/prefix-tuning.png">
    
 ### **4. RLHF (will be updated later)**
-> In this approach LLM is finetuned using both supervised learning and reinforcement learning. It allows LLM to learn from human feedback.
-
-> RLHF can efficiently train LLMs with less labelled data and improve their performance on specific tasks.
+In this approach LLM is finetuned using both supervised learning and reinforcement learning. It allows LLM to learn from human feedback.
+RLHF can efficiently train LLMs with less labelled data and improve their performance on specific tasks.
 <img src="https://www.labellerr.com/blog/content/images/2023/06/bannerRELF.webp">
 
 > [!NOTE]
