@@ -219,7 +219,7 @@ simple_chain.run("Egypt")
 
 
 ---
-## Memory
+## ***Memory***
 > Large Language Models are **stateless** each transaction is independent.
 > 
 > Chatbots have memory by providing conversation as context. Memory allowas LLM to remember previos interactions with the user
@@ -320,7 +320,91 @@ We can use multiple memories at the same time.
 
 
 
+---
+## ***Agents***
+- Agents make use of a LLM to decide on which Action to take. (Actions are taken by the agent via various tools.)
+- After an Action is completed, the Agent enters the Observation step.
+- From Observation step Agent shares a Thought; if a final answer is not reached, the Agent cycles back to another Action in order to move closer to a Final Answer.
+<img src="https://miro.medium.com/v2/resize:fit:828/format:webp/1*uEAfllPdUxZKEkiRIuZFdA.png">
 
+* **Different types of agents**
+  * **ReAct**
+    ```
+    from langchain.agents import load_tools, initialize_agent, AgentType
+    from langchain.chat_models import ChatOpenAI
+    
+    llm = ChatOpenAI(temperature = 0)
+    tools = load_tools(["wikipedia"], llm= llm)
+    
+    agent = initialize_agent(
+        tools, 
+        llm,
+        agent = AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+        handle_parsing_errors = True,
+        verbose = True
+    )
+    
+    question = "Ahmed Zewil is an Egyptian scientist \
+    and he has won the Nobel Prize in chemistry \
+    what was the research he got Nobel prize for?"
+    result = agent(question) 
+    ```
+
+  * **Define your own tool**
+    ```
+    from langchain.agents import tool
+    
+    @tool
+    def get_name(mail: str) -> str:
+        """You will be given an email address \
+        return the name of the user. \
+        and the name of organization."""
+        return mail.split("@")[0], mail.split("@")[1]
+        
+    tools = [get_name]
+    
+    agent= initialize_agent(
+        tools + [get_name], 
+        llm, 
+        agent= AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+        handle_parsing_errors= True,
+        verbose= True
+    )
+    
+    result = agent("whats the user name and the domain name of a7medeldokmak@gmail.com?") 
+    ```
+
+  * **Python Agent**
+    ```
+    from langchain.agents.agent_toolkits import create_python_agent
+    from langchain.tools.python.tool import PythonREPLTool
+    from langchain.python import PythonREPL
+    
+    agent = create_python_agent(
+        llm,
+        tool = PythonREPLTool(),
+        verbose = True
+    )
+    
+    student_grades = [["Ahmed", "90"], 
+                     ["Sam", "92"],
+                     ["Aml", "84"],
+                     ["Passant", "94"], 
+                     ["Geoff","80"], 
+                     ["Madison","88"],
+                    ]
+    
+    agent.run(
+        f"""Sort these students by \ 
+        their grades from the \
+        highest to lowest \
+        then print the output: {student_grades}"""
+    )
+    ```
+
+
+
+---
 
 
 
