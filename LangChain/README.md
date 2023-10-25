@@ -2,6 +2,7 @@
 * **[Language models/ Prompts/ Output parsers](#models-prompts-output-parsers)**
 * **[Chains](#chains)**
 * **[Memory](#memory)**
+* **[Agents](#agents)**
 
 
 
@@ -405,11 +406,71 @@ We can use multiple memories at the same time.
 
 
 ---
+## ***Callbacks***
+This code from [langchain Modules](https://python.langchain.com/docs/modules/callbacks/)
+```
+from langchain.callbacks import StdOutCallbackHandler
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+
+handler = StdOutCallbackHandler()
+llm = OpenAI()
+prompt = PromptTemplate.from_template("1 + {number} = ")
+
+chain = LLMChain(llm=llm, prompt=prompt, callbacks=[handler])
+chain.run(number=2)
+
+chain = LLMChain(llm=llm, prompt=prompt, verbose=True)
+chain.run(number=2)
+
+# Callbacks and verbose achieve the same result
+```
 
 
 
+--- 
+## ***Data Augmentation***
+Retrieval-augmented generation is a technique used in natural language processing that combines the power of both retrieval-based models and generative models to enhance the quality and relevance of generated text.
+<img width="800" src="https://sych.io/blog/content/images/2023/07/LLM-Augment-Architecture.png">
 
+Implementation of Retrieval Augmentation (with langchain/ in general) involves some steps:
+1. **Document loaders**
+   * Load documents of different sources/formats, Loaders deal with specifics of accessing (Data Bases, Youtube, .....) and converting (PDF, HTML, ....) data.
+   * Return list of document objects.
+   ```
+   from langchain.document_loaders import TextLoader
+   loader = TextLoader("./readme.md")
+   loader.load()
+   ```
+2. **Creating Chunks**
+   * Splitting the loaded documents into small chunks and add overlap (to retain meaningful relationships).
+   * Types of splitters:
+     - CharacterTextSplitter
+     - MarkdownTextSplitter
+     - TokenTextSplitter
+     - SentenceTransformersTextSplitter
+     - RecursiveCharacterTextSplitter
+     - Language (cpp, python, ...)
+     - NLTKTextSplitter
+     - spacyTextSplitter
+   ```
+   from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+   text_spliter = RecursiveCharacterTextSplitter(
+     chunk_size = 50,
+     chunk_overlap = 10,
+     # Optional
+     length_function = len,
+     add_start_index = True,
+     seperator = "\n\n" # enter whatever seperator u want
+   )
+
+   texts = text_splitter.create_documents([Enter your documents])
+   ```
+3. **Text Embeddings**
+4. **Vector Store**
+5. **Retrieving**
 
 
 
