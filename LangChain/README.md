@@ -5,6 +5,7 @@
 * **[Agents](#agents)**
 * **[Callbacks](#callbacks)**
 * **[Data Augmentation](#data-augmentation)**
+* **[Talk to your documents]()**
 
 
 
@@ -540,5 +541,17 @@ Implementation of Retrieval Augmentation (with langchain/ in general) involves s
 
 
 
+---
+## ***Talk to your documents***
+Just wrapping every thing of data augmentation together. You can check the notebook **Ask your documents**
+* **Note** for chain there are different types:
+  - **Stuff method:** The diffult which make the full context as prompt in one call.
+    <img width="600" src="https://miro.medium.com/v2/resize:fit:1400/1*ZBK-9J_VwaqEsChVi0rxJg.png">
+  - **Map_reduce:** Split the context into multiple chunks pass each chunk to LLM and take all output as input to LLM.
+  - **Refine:** Split the context into multiple chunks pass the first one to LLM and its output with the seconde chunk as input to LLm and so on until you reach the final chunk.
+  - **Map_rerank:** Split the context into multiple chunks pass each chunk to LLM then select highest score.
+    <img width="600" src="https://miro.medium.com/v2/resize:fit:1400/1*ATLDF3UAPoMy3UOvzS2g5g.png">
 
 
+
+---
