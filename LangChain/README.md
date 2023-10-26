@@ -3,6 +3,8 @@
 * **[Chains](#chains)**
 * **[Memory](#memory)**
 * **[Agents](#agents)**
+* **[Callbacks](#callbacks)**
+* **[Data Augmentation](#data-augmentation)**
 
 
 
@@ -443,6 +445,7 @@ Implementation of Retrieval Augmentation (with langchain/ in general) involves s
    loader = TextLoader("./readme.md")
    loader.load()
    ```
+   
 2. **Creating Chunks**
    * Splitting the loaded documents into small chunks and add overlap (to retain meaningful relationships).
    * Types of splitters:
@@ -468,9 +471,42 @@ Implementation of Retrieval Augmentation (with langchain/ in general) involves s
 
    texts = text_splitter.create_documents([Enter your documents])
    ```
+   
 3. **Text Embeddings**
+   * Converting text into vectors, vectors that capture content/meaning.
+   ```
+    from langchain.embeddings.openai import OpenAIEmbeddings
+
+    embedding = OpenAIEmbeddings()
+    sentence = "My name is Ahmed Eldokmak, nice to meet you"
+    
+    embedding.embed_query(sentence)
+   ```
+   
 4. **Vector Store**
-5. **Retrieving**
+   * Store embedded data.
+   ```
+    from langchain.vectorstores import chromadb
+    
+    db = chromadb.from_documents(documents, embedding)
+   ```
+   
+5. **Similarity search**
+   * Locks for relevant docs to your question
+   ```
+   question = "What is the name of lecturer?"
+   docs = db.similarity_search(question, k=3) # returns 3 relevant docs
+   ```
+   * Failure cases of similarity search
+     - It doesn't have diversity, gets duplicate docs.
+     - Sometimes you ask a question for a specific part in the docs but you get an answer from the whole docs. **e.g.** you have 4 sections in the docs, and you ask a question for section 1 only, you get answer           from all 4 sections.
+      
+6. **Retrieval**
+   * Accessing the data in the vector store
+     - Basic semantic similarity
+     - MMR (Maximum Marginal Relevance)
+     - Inculding Metadata
+    * LLM Aided Retrieval
 
 
 
