@@ -8,7 +8,6 @@
 
 
 
-
 ---
 ## ***Models/ Prompts/ Output parsers***
 > The core element of any language model application
@@ -498,15 +497,46 @@ Implementation of Retrieval Augmentation (with langchain/ in general) involves s
    docs = db.similarity_search(question, k=3) # returns 3 relevant docs
    ```
    * Failure cases of similarity search
-     - It doesn't have diversity, gets duplicate docs.
-     - Sometimes you ask a question for a specific part in the docs but you get an answer from the whole docs. **e.g.** you have 4 sections in the docs, and you ask a question for section 1 only, you get answer           from all 4 sections.
+     - It doesn't have diversity, gets duplicate docs. (**Solution:** MMR)
+     - Specificity. **e.g.** you have 4 sections in the docs, and you ask a question about section 1 only, you get answer from all 4 sections. (**Solution:** metadata)
       
 6. **Retrieval**
-   * Accessing the data in the vector store
-     - Basic semantic similarity
-     - MMR (Maximum Marginal Relevance)
-     - Inculding Metadata
-    * LLM Aided Retrieval
+   * **Accessing the data in the vector store**
+     ```
+     from langchain.vectorstores import Chroma
+     from langchain.embeddings.openai import OpenAIEmbeddings
+        
+     persist_directory = "/kaggle/working/"
+        
+     embedding = OpenAIEmbeddings()
+     vectordb = Chroma(
+       persist_directory = persist_directory,
+       embedding_function = embedding
+     )
+        
+     texts = []
+     question = ""
+     ```
+     - *Basic semantic similarity.* Explained.
+       ```
+       db.similarity_search(question, k=2)
+       ```
+     - *MMR (Maximum Marginal Relevance):* You pick the 'fetch_k' most similar responses, and within these responses you chose the 'k' most diverse.
+       ```
+       db.max_marginal_relevance_search(question, fetch_k= 3, k= 2)
+       ```
+     - *Inculding Metadata* add filter to the vector database
+       ```
+       docs = vectordb.similarity_search(
+          question,
+          k=3,
+          filter={"source":"Enter meta data"}
+       )
+       ```
+    * **LLM Aided Retrieval:** e.g. SelfQuery where we use LLM to convert the question into query.
+      - You can find some examples in the notebook 5-Data Augmentation
+    * **Compression:** Increase the number of results you can put in the context by shrinking the responses to only the relevant information.
+      - You can find some examples in the notebook 5-Data Augmentation
 
 
 
