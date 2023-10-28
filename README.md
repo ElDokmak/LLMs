@@ -24,6 +24,7 @@
 * **[LangChain](#building-applications-with-langchain)**
 * **[LLMs Evaluation]()**
 * **[Refrences](#Refrences)**
+* **[LLM Model Evaluation](#llm-model-evaluation)**
 
 
   
@@ -475,6 +476,14 @@ There are a few solutions out there where you can test building your own RAG eng
 3. **Text-to-vector conversion (Embeddings):** Converting the textual data into a format that the model can readily use. When using a vector database, this means transforming the text into mathematical vectors via a process known as “embedding.”
 4. **Links between source data and embeddings:** The link between the source data and embeddings is the linchpin of the RAG architecture. A well-orchestrated match between them ensures that the retrieval model fetches the most relevant information, which in turn informs the generative model to produce meaningful and accurate text.
 
+### The problem of RAG
+There is no reason for a question to be semantically similar to its answer. RAG can lead to many irrelevant documents being fed to the LLM without being provided the right context for an answer.
+One solution to that is to use the **Hypothetical Document Embeddings (HyDE) technique**.
+
+### HyDE (Hypothetical Document Embeddings)
+The idea is to use the LLM to generate a hypothetical answer, embed that answer, and use this embedding to query the vector database. The hypothetical answer will be wrong, but it has more chance to be semantically similar to the right answer. 
+<img width="600" src="https://media.licdn.com/dms/image/D5622AQF0anZ2oAqK3A/feedshare-shrink_2048_1536/0/1694792395545?e=1701302400&v=beta&t=kHbfAMtW7FqSrkNImxjUrlEUd7aO7Jk4ee9bIk0yKRY">
+
 
 
 ---
@@ -620,32 +629,40 @@ The primary index and retrieval types supported by LangChain are currently cente
 
 
 
+---
+## LLM Model Evaluation
+
+
+
+
+
+
 
 ---
 ## Refrences        
-|                                                 Refrences                                                          |
-| :---------------------------------------------------------------------------------------------------------------:  |
-|          [Stanford](https://web.stanford.edu/~jurafsky/slp3/slides/LM_4.pdf)                                       | 
-|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                           | 
-|          [Towardsdatascience](https://towardsdatascience.com/)                                                     | 
-|          [Ofir Press](https://ofir.io/Neural-Language-Modeling-From-Scratch/)                                      | 
-|          [Wikipedia](https://en.wikipedia.org/wiki/Language_model)                                                 | 
-|          [scaler](https://www.scaler.com/topics/nlp/language-models-in-nlp/)                                       | 
-|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                             | 
-|          [GPTQ](https://arxiv.org/abs/2210.17323)                                                                  | 
-|          [GGML](https://github.com/ggerganov/ggml)                                                                 | 
-|          [In-contextLearning](https://arxiv.org/abs/2301.00234)                                                    | 
-|          [Chain-of-Thought Prompting](https://arxiv.org/abs/2201.11903)                                            | 
-|          [SELF-CONSISTENCY](https://arxiv.org/abs/2203.11171)                                                      | 
-|          [Tree of Thoughts](https://arxiv.org/abs/2305.10601)                                                      | 
-|          [Automatic Prompt Augmentation and Selection with Chain-of-Thought](https://arxiv.org/abs/2302.12822)     | 
-|          [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2210.03493)                    | 
-|          [LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models](https://arxiv.org/abs/2309.12307) | 
-|          [Parameter-Efficient Fine-Tuning without Introducing New Latency](https://arxiv.org/abs/2305.16742)       | 
-|          [QLORA:EfficientFinetuningofQuantizedLLMs](https://arxiv.org/pdf/2305.14314.pdf)                          | 
-|          [The Power of Scale for Parameter-Efficient Prompt Tuning](https://arxiv.org/abs/2104.08691)              | 
-|          [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://arxiv.org/abs/2101.00190)           | 
-|          [QA-LORA:QUANTIZATION-AWARE LoRA](https://arxiv.org/pdf/2309.14717v2.pdf)                                 | 
+|                                                 Refrences                                                                |
+| :---------------------------------------------------------------------------------------------------------------:        |
+|          [Stanford](https://web.stanford.edu)                                                                            | 
+|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                                 | 
+|          [Towardsdatascience](https://towardsdatascience.com/)                                                           | 
+|          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                                   | 
+|          [GPTQ: Post-Training Quantization for Generative Pre-trained Transformers](https://arxiv.org/abs/2210.17323)    | 
+|          [GGML](https://github.com/ggerganov/ggml)                                                                       | 
+|          [A Survey on In-context Learning](https://arxiv.org/abs/2301.00234)                                             | 
+|          [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903)       | 
+|          [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171)     | 
+|          [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)     | 
+|          [Automatic Prompt Augmentation and Selection with Chain-of-Thought](https://arxiv.org/abs/2302.12822)           | 
+|          [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)                  | 
+|          [Parameter-Efficient Fine-Tuning without Introducing New Latency](https://arxiv.org/abs/2305.16742)             | 
+|          [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2210.03493)                          | 
+|          [QLORA:EfficientFinetuningofQuantizedLLMs](https://arxiv.org/pdf/2305.14314.pdf)                                | 
+|          [LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models](https://arxiv.org/abs/2309.12307)       | 
+|          [QA-LORA:QUANTIZATION-AWARE LoRA](https://arxiv.org/pdf/2309.14717v2.pdf)                                       | 
+|          [The Power of Scale for Parameter-Efficient Prompt Tuning](https://arxiv.org/abs/2104.08691)                    | 
+|          [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://arxiv.org/abs/2101.00190)                 | 
+|          [Precise Zero-Shot Dense Retrieval without Relevance Labels](https://arxiv.org/abs/2212.10496)                  | 
+|          [LLM-Eval](https://arxiv.org/abs/2305.13711)                                                                    | 
 
 
-
+----
