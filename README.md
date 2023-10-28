@@ -27,6 +27,7 @@
 * **[LLM Model Evaluation](#llm-model-evaluation)**
 
 
+
   
 ---
 ## What is Large Language Model?
@@ -631,6 +632,42 @@ The primary index and retrieval types supported by LangChain are currently cente
 
 ---
 ## LLM Model Evaluation
+LLM model evals are focused on the overall performance of the foundational models. 
+
+* **LLM Evaluation Metrics**
+  - **ROUGE (Recall-Oriented Understudy for Gisting Evaluation) Score:**
+    ROUGE score is a set of metrics commonly used for text summarization tasks, where the goal is to automatically generate a concise summary of a longer text. ROUGE was designed to evaluate the quality of machine-generated summaries by comparing them to    
+    reference summaries provided by humans.
+      > **ROUGE = ∑ (Recall of n-grams)** 
+      > - **Recall of n-grams** is the number of n-grams that appear in both the machine-generated summary and the reference summaries divided by the total number of n-grams in the reference summaries.
+
+  - **BLEU (Bilingual Evaluation Understudy) Score:**
+    BLEU score is a widely used metric for machine translation tasks, where the goal is to automatically translate text from one language to another. It was proposed as a way to assess the quality of machine-generated translations by comparing them to a set of       reference translations provided by human translators.
+      > **BLEU = BP * exp(∑pn)** 
+      > - **BP (Brevity Penalty)** is a penalty term that adjusts the score for translations that are shorter than the reference translations. It is calculated as min(1, (reference_length / translated_length)), where reference_length is the total number of words             in the reference translations, and translated_length is the total number of words in the machine-generated translation.
+      > - **pn** is the precision of n-grams, which is calculated as the number of n-grams that appear in both the machine-generated translation and the reference translations divided by the total number of n-grams in the machine-generated translation.
+
+   - **perplexity**
+   - **Human Evaluations**
+   - **etc...**
+
+* **Benchmarks**
+  
+|          **Benchmark**         |                          **Factors Considered for Evaluation**                            |
+| :----------------------------: | :---------------------------------------------------------------------------------------: |
+|              GLUE              | Grammar, Paraphrasing, Text Similarity, Inference, Textual Entailment, Resolving Pronoun References |
+|              SuperGLUE         | Natural Language Understanding, Reasoning, Understanding complex sentences beyond training data, Coherent and Well-Formed Natural Language Generation, Dialogue with Human Beings, Common Sense Reasoning (Everyday Scenarios and                                      Social Norms and Conventions), Information Retrieval, Reading Comprehension |
+|              Big Bench	      | Generalization abilities	 |
+|              MMLU	            | Language understanding across various tasks and domains |
+|              OpenAI Evals      | Accuracy, Diversity, Consistency, Robustness, Transferability, Efficiency, Fairness of text generated |
+|              ANLI              | Robustness, Generalization, Coherent explanations for inferences, Consistency of reasoning across similar examples, Efficiency in terms of resource usage (memory usage, inference time, and training time) |
+|              MultiNLI          | Understanding relationships between sentences across different genres |
+|              SQUAD             | Reading comprehension tasks	 |
+|              etc...            | ....................	 |
+
+
+
+
 
 
 
@@ -641,7 +678,7 @@ The primary index and retrieval types supported by LangChain are currently cente
 ---
 ## Refrences        
 |                                                 Refrences                                                                |
-| :---------------------------------------------------------------------------------------------------------------:        |
+| :----------------------------------------------------------------------------------------------------------------------: |
 |          [Stanford](https://web.stanford.edu)                                                                            | 
 |          [Machine Learning Mastery](https://machinelearningmastery.com/)                                                 | 
 |          [Towardsdatascience](https://towardsdatascience.com/)                                                           | 
