@@ -206,6 +206,22 @@ It is a uni-directional transformer network that generates output.
    * **Lowwer-temp:** means strongly peaked probability distribution with more certain and realistic outputs.
    * **Higher-temp:** means broader, flatter probability distribution with creative output but less certain.
 
+```
+from transformers import AutoModelForCausalLM
+
+model = AutoModelForCausalLM.from_pretrained(
+   model_name,
+   # add other parameters
+)
+
+generation_config = model.generation_config
+generation_config.max_new_tokens = 200
+generation_config.temperature = 0.7
+generation_config.top_p = 0.7
+generation_config.top_k = 0.3
+generation_config.num_return_sequences = 1
+```
+
 
 
 ---
@@ -640,12 +656,51 @@ LLM model evals are focused on the overall performance of the foundational model
     reference summaries provided by humans.
       > **ROUGE = ∑ (Recall of n-grams)** 
       > - **Recall of n-grams** is the number of n-grams that appear in both the machine-generated summary and the reference summaries divided by the total number of n-grams in the reference summaries.
-
+    - Code
+    ```
+    import evaluate
+   
+    rouge = evaluate.load('rouge')
+   
+    predictions = ["hello there", "general kenobi"]
+    references = ["hello there", "general kenobi"]
+   
+    results = rouge.compute(predictions=predictions, references=references)
+   
+    print(results)    
+    ```
+    - Results
+    ```
+    {'rouge1': 1.0, 'rouge2': 1.0, 'rougeL': 1.0, 'rougeLsum': 1.0}
+    ```
+    
   - **BLEU (Bilingual Evaluation Understudy) Score:**
     BLEU score is a widely used metric for machine translation tasks, where the goal is to automatically translate text from one language to another. It was proposed as a way to assess the quality of machine-generated translations by comparing them to a set of       reference translations provided by human translators.
       > **BLEU = BP * exp(∑pn)** 
       > - **BP (Brevity Penalty)** is a penalty term that adjusts the score for translations that are shorter than the reference translations. It is calculated as min(1, (reference_length / translated_length)), where reference_length is the total number of words             in the reference translations, and translated_length is the total number of words in the machine-generated translation.
       > - **pn** is the precision of n-grams, which is calculated as the number of n-grams that appear in both the machine-generated translation and the reference translations divided by the total number of n-grams in the machine-generated translation.
+    - Code
+    ```
+    import evaluate
+
+    predictions = ["hello there general kenobi", "foo bar foobar"]
+    references = [["hello there general kenobi", "hello there !"],["foo bar foobar"]]
+   
+    bleu = evaluate.load("bleu")
+   
+    results = bleu.compute(predictions=predictions, references=references)
+   
+    print(results)
+    ```
+    - Results
+    ```
+    {'bleu': 1.0,
+    'precisions': [1.0, 1.0, 1.0, 1.0],
+    'brevity_penalty': 1.0,
+    'length_ratio': 1.1666666666666667,
+    'translation_length': 7,
+    'reference_length': 6}
+    ``` 
 
    - **perplexity**
    - **Human Evaluations**
