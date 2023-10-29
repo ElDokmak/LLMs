@@ -666,12 +666,16 @@ LLM model evals are focused on the overall performance of the foundational model
 |              etc...            | ....................	 |
 
 
+### LLM System Evals
+There is difference between LLM model evals and LLM system evals.
+- LLM model evals focuses on the overall performance.
+- LLM system evals is the complete evaluation of components that you have control of in your system.
 
 
-
-
-
-
+### Which to use?
+For ML practitioners, the task also starts with model evaluation. One of the first steps in developing an LLM system is picking a model (i.e. GPT 3.5 vs 4 vs Palm, etc.). 
+The LLM model eval for this group, however, is often a one-time step. Once the question of which model performs best in your use case is settled, the majority of the rest of the application’s lifecycle will be defined by LLM system evals.
+Thus, ML practitioners care about both LLM model evals and LLM system evals but likely spend much more time on the latter.
 
 
 
