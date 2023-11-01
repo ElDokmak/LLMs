@@ -630,10 +630,14 @@ There is no reason for a question to be semantically similar to its answer. RAG 
 One solution to that is to use the **Hypothetical Document Embeddings (HyDE) technique**.
 
 ### HyDE (Hypothetical Document Embeddings)
-The idea is to use the LLM to generate a hypothetical answer, embed that answer, and use this embedding to query the vector database. The hypothetical answer will be wrong, but it has more chance to be semantically similar to the right answer. 
+The idea is to use the LLM to generate a hypothetical answer, embed that answer, and use this embedding to query the vector database. The hypothetical answer will be wrong, but it has more chance to be semantically similar to the right answer.
+
 <kbd>   
    <img width="600" src="https://media.licdn.com/dms/image/D5622AQF0anZ2oAqK3A/feedshare-shrink_2048_1536/0/1694792395545?e=1701302400&v=beta&t=kHbfAMtW7FqSrkNImxjUrlEUd7aO7Jk4ee9bIk0yKRY">
 </kbd>
+
+
+
 
 
 ---
@@ -875,6 +879,8 @@ There is difference between LLM model evals and LLM system evals.
 For ML practitioners, the task also starts with model evaluation. One of the first steps in developing an LLM system is picking a model (i.e. GPT 3.5 vs 4 vs Palm, etc.). 
 The LLM model eval for this group, however, is often a one-time step. Once the question of which model performs best in your use case is settled, the majority of the rest of the application’s lifecycle will be defined by LLM system evals.
 Thus, ML practitioners care about both LLM model evals and LLM system evals but likely spend much more time on the latter.
+
+
 
 
 
