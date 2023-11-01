@@ -3,6 +3,7 @@
 
 
 
+
 ---
 ## **Content**
 * **[What is Large Language Model?](#what-is-large-language-model)**
@@ -22,7 +23,6 @@
 * **[Fine-Tuning](#fine-tuning)**
 * **[RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation)**
 * **[LangChain](#building-applications-with-langchain)**
-* **[LLMs Evaluation]()**
 * **[Refrences](#Refrences)**
 * **[LLM Model Evaluation](#llm-model-evaluation)**
 
@@ -34,19 +34,23 @@
 Language model in simple words is a type of Machine Learning models that can perform a variety of NLP tasks such as generating and classifying text, translation and Q&A.
 With a main goal which is to assign probablities to a sentece.
 
-The term **large** refers to the number of parameters that model has.
+* ***The term large refers to the number of parameters that model has.***
 
-LLMs are trained with huge amount of data and use self-supervised learning to predict the next token in a sentence, given the surrounding context,
+* LLMs are trained with huge amount of data and use self-supervised learning to predict the next token in a sentence, given the surrounding context,
 this process is repeated until the model reaches an acceptable level of accuracy.
+
+
 
 
 
 ---
 ## Applications
-1. Text Generation
-2. Machine Translation
-3. Summarization
-4. Q&A, dialogue bots, etc.....
+1. **Text Generation**
+2. **Machine Translation**
+3. **Summarization**
+4. **Q&A, dialogue bots, etc.....**
+
+
 
 
 
@@ -59,20 +63,19 @@ Statistical LM is the development of probabilistic models that predict the next 
 ### N-gram Language Models: 
 N-gram can be defined as the contigous sequence of n items (can be letters, words or base pairs according to the application) from a given sample of text (A long text dataset).
 
-An n-gram model predicts the probability of a given n-gram within any sequence of words in the language.
-
-A good n-gram model can predict the next word in the sentence i.e the value of **p(w|h)**
+* An n-gram model predicts the probability of a given n-gram within any sequence of words in the language.
+* A good n-gram model can predict the next word in the sentence i.e the value of **p(w|h)**
 where w is the word and h is the history or the previos words.
 ```
 This repo is about LLMs
 Unigram ("This", "repo", "is", "about", "LLMs")
 bigrams ("This repo", "repo is", "is about", "about LLMs")
 ```
-You can think of n-gram model as counting frequncies as follows: consider the previos example 
+* You can think of n-gram model as counting frequncies as follows: consider the previos example 
 ```
 P(LLMs|This repo is about) = count(This repo is about LLMs) / count(This repo is about)
 ```
-Now to find the next word in a sentence we need to calculate the **p(w|h)**, let's consider the above example 
+* To find the next word in a sentence we need to calculate the **p(w|h)**, let's consider the above example 
 ```
 P(LLMs|This repo is about)
 After generalization: P(wn|w1,w2,.....,wn-1)
@@ -89,10 +92,11 @@ P(wi|w1,w2,...,wi-1) = P(wi|wi-k,....,wi-1)
 For Unigram: P(w1w2,....wn) = ΠP(wi)
 For Bigram: P(wi|w1w2,....wi-1) = P(wi|wi-1)
 ```
-We can extend to trigrams, 4-grams, 5-grams.
+* We can extend to trigrams, 4-grams, 5-grams.
 
-> In general this is an insufficient model of language because language has long distance dependecies:
-> The computer(s) which I had just put into the machine room on the fifth floor is (are) crashing.
+### Problems of N-gram model
+In general this is an insufficient model of language because language has long distance dependecies
+> e.g. The computer(s) which I had just put into the machine room on the fifth floor is (are) crashing.
 
      
 ### Exponential Language Models: 
@@ -107,58 +111,71 @@ The **log-bilinear model** is another example of an exponential language model.
 
 
 ### Limitations of Statistical LMs
-* Sparsity probelm:
-     1. Count(n-gram) = 0 --> Solution: Smoothing (adding small alpha)
-     2. Count(n-1 gram) = 0 --> Solution: Backoff
-* Exponential growth:
-  
-     The number of n-grams grows as an nth exponent of the vocabulary size. A 10,000-word vocabulary would have 10¹² tri-grams and a 100,000 word vocabulary will have 10¹⁵ trigrams.
-* Generalization:
-  
-     Lack of generalization. If the model sees the term ‘white horse’ in the training data but does not see ‘black horse’, the MLE will assign zero probability to ‘black horse’. (Thankfully, it will assign zero probability to Purple horse as well)
+* **Sparsity probelm:**
+     1. Count(n-gram) = 0 --> **Solution:** Smoothing (adding small alpha)
+     2. Count(n-1 gram) = 0 --> **Solution:** Backoff
+* **Exponential growth:**
+  The number of n-grams grows as an nth exponent of the vocabulary size. A 10,000-word vocabulary would have 10¹² tri-grams and a 100,000 word vocabulary will have 10¹⁵ trigrams.
+* **Generalization:**
+  Lack of generalization. If the model sees the term ‘white horse’ in the training data but does not see ‘black horse’, the MLE will assign zero probability to ‘black horse’. (Thankfully, it will assign zero probability to Purple horse as well)
+
+
+
 
   
 ## **Neural Language Modeling: (NLM)**
-NLM mainly use RNNs (/LSTMs/GRUs)
+> NLM mainly uses RNNs (/LSTMs/GRUs)
 
 
 ### RNN’s (Recurrent Neural Networks):
-A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. In effect, an RNN is a type of neural network that has an internal loop.
+A recurrent neural network (RNN) processes sequences by iterating through the sequence elements and maintaining a state containing information relative to what it has seen so far. 
+In effect, an RNN is a type of neural network that has an internal loop.
 
-RNNs solve the sparsity problem
-<img src="https://stanford.edu/~shervine/teaching/cs-230/illustrations/architecture-rnn-ltr.png?9ea4417fc145b9346a3e288801dbdfdc">
+* **RNNs solve the sparsity problem**
+<kbd>
+   <img width="800" src="https://stanford.edu/~shervine/teaching/cs-230/illustrations/architecture-rnn-ltr.png?9ea4417fc145b9346a3e288801dbdfdc">
+</kbd>
 
-**Types of RNNs**
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*VCxoP7Siu0YB501L_-eg1w.png">
+* **Types of RNNs**
+<kbd>
+   <img width="800" src="https://miro.medium.com/v2/resize:fit:1400/1*VCxoP7Siu0YB501L_-eg1w.png">
+</kbd>
 
-**Disadvantages of RNNs**
-* Vanishing Gradiients --> Solution: LSTMs/GRUs.
-* Exploding Gradients --> Solution: Truncation or squashing the gradients.
-* Sequential processing/ slow.
-* Can't capture information for longer sequences.
+* **Disadvantages of RNNs**
+   - Vanishing Gradiients --> Solution: LSTMs/GRUs.
+   - Exploding Gradients --> Solution: Truncation or squashing the gradients.
+   - Sequential processing/ slow.
+   - Can't capture information for longer sequences.
 
 
 ### LSTMs (Long Short Term Memory networks)
 LSTMs are a special kind of RNN, capable of learning long-term dependencies.
-<img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/12/10131302/13.png">
 
-LSTM is made up of 3 gates.
-1. Input Gate: We decide to add new stuff from the present input to our present cell state scaled by how much we wish to add them.
-2. Forget Gate: After getting the output of previous state, h(t-1), Forget gate helps us to take decisions about what must be removed from h(t-1) state and thus keeping only relevant stuff.
-3. Output Gate: Finally we’ll decide what to output from our cell state which will be done by our sigmoid function.
+* LSTM is made up of 3 gates.
+   1. Input Gate: We decide to add new stuff from the present input to our present cell state scaled by how much we wish to add them.
+   2. Forget Gate: After getting the output of previous state, h(t-1), Forget gate helps us to take decisions about what must be removed from h(t-1) state and thus keeping only relevant stuff.
+   3. Output Gate: Finally we’ll decide what to output from our cell state which will be done by our sigmoid function.
+
+<kbd>
+   <img width="800" src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/12/10131302/13.png">
+</kbd>
+
+
 
 
 
 ---
 ## Evaluation of LMs
 ### Extrinsic Evaluation
-Extrinsic evaluation is the best way to evaluate the performance of a language model by embedding it in an application and measuring how much the application improves. End-to-end evaluation where we can understand if a particular improvement in a component is really going to help the task at hand, however it's time consuming
+Extrinsic evaluation is the best way to evaluate the performance of a language model by embedding it in an application and measuring how much the application improves. 
+* End-to-end evaluation where we can understand if a particular improvement in a component is really going to help the task at hand, however it's time consuming
 
 ### Intrinsic Evaluation
 An intrinsic evaluation metric is one that measures the quality of a model-independent of any application.
+* **Perplexity:** It is a measure of how well a probability model predicts a sample.
+* **Perplexity** is the inverse of probability and lower perplexity is better
 
-* Perplexity: It is a measure of how well a probability model predicts a sample.
-Perplexity is the inverse of probability and lower perplexity is better
+
 
 
 
@@ -167,9 +184,6 @@ Perplexity is the inverse of probability and lower perplexity is better
 Previosly we discussed some of the RNNs (LSTMs) Challenges: like slow computations due to sequential processing, and they can't capture contextual information for longer sequences.
 
 * The Solution was found when the paper Attention is All You Need which introduced the Transformer architecture came to life.
-
-> [!NOTE]
-> Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
 
 
 ### Encoder: 
@@ -189,16 +203,26 @@ It is a uni-directional transformer network that generates output.
 - Use cases: Translation, Text summarization, and Question answering.
 
 
+> [!NOTE]
+> Transformers has two main components: Encoder and Decoder (explained with code [here](https://github.com/ElDokmak/LLMs/tree/main/Transformer-Based%20Language%20Models))
+
+
+
+
 
 ---
 ## Generative configuration parameters for inference
-<img src="https://github.com/ElDokmak/LLMs-variety/assets/85394315/b8f7cc45-8b97-411f-82df-711988a90b50">
+<kbd>
+   <img width="800" src="https://github.com/ElDokmak/LLMs-variety/assets/85394315/b8f7cc45-8b97-411f-82df-711988a90b50">
+</kbd>
 
 * **Max new tokens:** the number of generated tokens.
 * **Greedy vs. random sampling:**
    * **Greedy search:** the word/token with the highest probability is selected.
    * **Random sampling:** select a token using a random-weighted strategy across the probabilities of all tokens.
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*3WS82V-mcwbiGvNupuWoCw.jpeg">
+<kbd>
+   <img width="800" src="https://miro.medium.com/v2/resize:fit:1400/1*3WS82V-mcwbiGvNupuWoCw.jpeg">
+</kbd>
 
 * **Top-k sampling:** select an output of the top-k results after applying random-weighted strategy using the probabilities.
 * **Top-p sampling:** select an output using the random-weighted strategy with the top-ranked consecutive results by probability and cumulative probability <= p. 
@@ -224,19 +248,23 @@ generation_config.num_return_sequences = 1
 
 
 
+
+
 ---
 ## Computational challenges and Qunatization
-- Approximate GPU RAM needed to store/train 1B parameters
+Approximate GPU RAM needed to store/train 1B parameters
    - To store 1 parameter = 4 bytes(FP32) --> 1B parameters = 4GB 
    - To train 1 parameter = 24 bytes(FP32) --> 1B paramters = 80GB
 
 This huge usage of GPU RAM will result in Out Of Memory problem: as a solution **Quantization** was introduced
 
-## Quantization
-Instead of full precision we can use lower precision.
 
-The following image shows how to store paramters using different data types:
-<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*VAq-r_4DnhmZcsaI4rqw3A.png">
+## Quantization
+* Instead of full precision we can use lower precision. The following image shows how to store paramters using different data types:
+
+<kbd>
+   <img width="800" src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*VAq-r_4DnhmZcsaI4rqw3A.png">
+</kbd>
 
 ### Types of Quantization
 1. **Post-Training Quantization (PTQ)**
@@ -246,7 +274,7 @@ The following image shows how to store paramters using different data types:
 2. **Quantization-Aware Training (QAT)**
    - incorporates the weight conversion process during the pre-training or fine-tuning stage, resulting in enhanced model performance. However, QAT is computationally expensive and demands representative training data.
 
-> We will focus on PTQ only.
+* We will focus on PTQ only.
 
 <!--
 ### 🔰 Naïve 8-bit Quantization
@@ -304,10 +332,50 @@ def zeropoint_quantize(X):
 > This is very different from the previous value obtained using absmax (4 vs. -1).
 <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*n5nqoJUXp65JahKsLzQS-A.png">
 
+### 🔢 8-bit Quantization with LLM.int8()
+LLM.int8() works by conducting matrix multiplication computation in three key steps:
+1. Extract columns from the input hidden states X containing outlier features using a custom threshold.
+2. Perform the matrix multiplication of the outliers using FP16 and the non-outliers using INT8 with vector-wise quantization (row-wise for the hidden state X and column-wise for the weight matrix W).
+3. Dequantize the non-outlier results (INT8 to FP16) and add them to the outlier results to get the full result in FP16.
+
+<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*1xt5F9kFLFGfiFmRtF11Pg.png">
+
+* This approach is necessary because 8-bit precision is limited and can lead to substantial errors when quantizing a vector with large values.
+
+```
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+model_int8 = AutoModelForCausalLM.from_pretrained(
+model_id,
+device_map='auto',
+load_in_8bit=True,
+)
+print(f"Model size: {model_int8.get_memory_footprint():,} bytes")
+
+# output 
+Model size: 176,527,896 bytes
+```
+```
+# Generate text with quantized model
+text_int8 = generate_text(model_int8, "I have a dream")
+
+print(f"Original model:\n{original_text}")
+print("-" * 50)
+print(f"LLM.int8() model:\n{text_int8}")
+
+# ouptut
+Original model:
+I have a dream, and it is a dream I believe I would get to live in my future. I love my mother, and there was that one time I had been told that my family wasn't even that strong. And then I got the
+--------------------------------------------------
+LLM.int8() model:
+I have a dream. I don't know what will come of it, but I am going to have to look for something that will be right. I haven't thought about it for a long time, but I have to try to get that thing
+```
 -->
 
 > [!NOTE]
 > GPTQ, AutoGPTQ, GGML, Pruning, and Distillation explained in the directory **[Quantization](https://github.com/ElDokmak/LLMs/tree/main/Quantization)**
+
+
 
 
 
