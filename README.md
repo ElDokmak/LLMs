@@ -869,16 +869,83 @@ LLM model evals are focused on the overall performance of the foundational model
 |              etc...            | ....................	 |
 
 
-### LLM System Evals
+#### LLM System Evals
 There is difference between LLM model evals and LLM system evals.
 - LLM model evals focuses on the overall performance.
 - LLM system evals is the complete evaluation of components that you have control of in your system.
 
 
-### Which to use?
+#### Which to use?
 For ML practitioners, the task also starts with model evaluation. One of the first steps in developing an LLM system is picking a model (i.e. GPT 3.5 vs 4 vs Palm, etc.). 
 The LLM model eval for this group, however, is often a one-time step. Once the question of which model performs best in your use case is settled, the majority of the rest of the application’s lifecycle will be defined by LLM system evals.
 Thus, ML practitioners care about both LLM model evals and LLM system evals but likely spend much more time on the latter.
+
+
+### LLMs as judges
+Benchmarks can not be always applied to evaluate LLMs since the corect or most helpful answer can be formulated in different ways.
+Which would give limitations in real-world performance.
+
+* *How we can evaluate performance of LLMs if the previos methods are no longer valid?*
+   1. **Leveraging human evaluations:**
+      Human evals gives the most natural measure of quality, but it does't scale well, relatively slow and costly.
+   2. **LLMs as judges:**
+      Using LLMs as judges to evaluate other LLMs, GPT-4 can match human prefrences with over 80% agreement when evaluating conversational chatbots.
+      * Practical examples using langchain (check [note-book]())
+        - **Types of evaluation**
+          1. ***Conciseness evaluation:*** measures if the the submission concise and to the point.
+          2. ***Correctness using an additional reference:*** This might not be the best choice as we are not sure if the LLM has the correct knowledge. It also requires reference.
+          3. ***Custom criteria:*** Deifne your own criteria to evaluate teh generations.
+          4. ***Pairwise comparison and scoring:*** asks the model to choose from two generations or generate  scores for the quality.
+      ```
+      # Load your model
+      model_name = "meta-llama/Llama-2-13b-chat-hf"
+
+      # Load your Evaluator
+      from langchain.chat_models import ChatOpenAI
+      os.environ["OPENAI_API_KEY"] = "Enter Your API-KEY" 
+      evaluation_llm = ChatOpenAI(model="gpt-4")
+
+      # Generate text with your model
+      prompt = "What is the capital of Egypt?"
+      pred = generate(prompt)
+
+      # Evaluation 1-Conciseness evaluation
+      from langchain.evaluation import load_evaluator
+      evaluator = load_evaluator("criteria", criteria="conciseness", llm=evaluation_llm)
+      eval_result = evaluator.evaluate_strings(
+          prediction=pred,
+          input=prompt,
+      )
+
+      # Evaluation 2-Correctness using additional reference
+      evaluator = load_evaluator("labeled_criteria", criteria="correctness", llm=evaluation_llm,requires_reference=True)
+      eval_result = evaluator.evaluate_strings(
+          prediction=pred,
+          input=prompt,
+          reference="The capital of Egypt is Alexandria."
+      )
+
+      ## Evaluation 3-Custom criteria
+      custom_criterion = {"eli5": "Is the output explained in a way that a 5 yeard old would unterstand it?"}
+      evaluator = load_evaluator("criteria", criteria=custom_criterion, llm=evaluation_llm)
+      eval_result = evaluator.evaluate_strings(
+          prediction=pred,
+          input=prompt,
+      )
+
+      # Evaluation 4-Pairwise comparison and scoring
+      prompt = "Write a short email to your boss about the meeting tomorrow."
+      pred_a = generate(prompt)
+      prompt = "Write a short email to your boss about the meeting tomorrow" # remove the period to not use cached results
+      pred_b = generate(prompt)
+      evaluator = load_evaluator("pairwise_string", llm=evaluation_llm)
+      eval_result = evaluator.evaluate_string_pairs(
+          prediction=pred_a,
+          prediction_b=pred_b,
+          input=prompt,
+      )
+      ```
+      * **RAG evaluation** check [langchain directory](https://github.com/ElDokmak/LLMs/tree/main/LangChain)
 
 
 
@@ -910,6 +977,8 @@ Thus, ML practitioners care about both LLM model evals and LLM system evals but 
 |          [Prefix-Tuning: Optimizing Continuous Prompts for Generation](https://arxiv.org/abs/2101.00190)                 | 
 |          [Precise Zero-Shot Dense Retrieval without Relevance Labels](https://arxiv.org/abs/2212.10496)                  | 
 |          [LLM-Eval](https://arxiv.org/abs/2305.13711)                                                                    | 
+|          [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)                      | 
+
 
 
 ----
