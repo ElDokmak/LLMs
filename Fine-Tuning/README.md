@@ -8,21 +8,23 @@
 
 ---
 ## LoRA (Low Rank Adaption for LLMs)
-> LoRA is a training method that accelerates the training of large language models while consuming less memory. It adds pairs of trainable rank-decomposition weight matrices (Called Update matrices) to existing weights, and only trains those newly added added weights.
+LoRA is a training method that accelerates the training of large language models while consuming less memory. It adds pairs of trainable rank-decomposition weight matrices (Called Update matrices) to existing weights, and only trains those newly added added weights.
+<kbd>
+ <img width="600" src="https://images.ctfassets.net/xjan103pcp94/6fct47v2q8PU36X9A1TUzN/62bf8834293c1ec4a7e591f42ed1ffd1/pretrainined-weights-diagram-lora-blog.png">
+</kbd>
 
-<img align="center" src="https://images.ctfassets.net/xjan103pcp94/6fct47v2q8PU36X9A1TUzN/62bf8834293c1ec4a7e591f42ed1ffd1/pretrainined-weights-diagram-lora-blog.png">
+* **Method:** The technique constrains the rank of the update matrix ΔW using its rank decomposition. It represents ΔWₙₖ as the product of 2 low-rank matrices Bₙᵣ and Aᵣₖ where r << min(n, k). This implies that the forward pass of the layer, originally Wx, is modified to Wx + BAx.
 
-> Method: The technique constrains the rank of the update matrix ΔW using its rank decomposition. It represents ΔWₙₖ as the product of 2 low-rank matrices Bₙᵣ and Aᵣₖ where r << min(n, k). This implies that the forward pass of the layer, originally Wx, is modified to Wx + BAx.
->
-> A random Gaussian initialization is used for A and B is initially to 0, so BA=0 at the start of training. The update BA is additionally scaled with a factor α/r.
+* A random Gaussian initialization is used for A and B is initially to 0, so BA=0 at the start of training. The update BA is additionally scaled with a factor α/r.
 
-* Advantages:
-  * Previos pretrained weights are kept frozen so the model is not as prone to catastrophic forgetting.
-  * Rank-decomposition matrices have significantly fewer parameters than the original model, which means that trained LoRA weights are easily portable.
-<img src="https://miro.medium.com/v2/resize:fit:640/format:webp/1*F7uWJePoMc6Qc1O2WxmQqQ.png">
+### **Advantages:**
+ * Previos pretrained weights are kept frozen so the model is not as prone to catastrophic forgetting.
+ * Rank-decomposition matrices have significantly fewer parameters than the original model, which means that trained LoRA weights are easily portable.
+<kbd>
+ <img width="600" src="https://miro.medium.com/v2/resize:fit:640/format:webp/1*F7uWJePoMc6Qc1O2WxmQqQ.png">
+</kbd>
 
 > e.g. for the previos image: let's say that d=100 , k=100 and r=5 then the original matrix size is 100 * 100 = 10000 which means 10000 parameters.
->
 > But after using Rank-decomposition matrices you have 100 * 5 = 500 and 5 * 100 = 500 which means 500 + 500 = 1000 parameters and that is a huge improvement which result in less computations.
 
 * rank-decomposition weight matrices are generally added to the attention layers of the original model.
