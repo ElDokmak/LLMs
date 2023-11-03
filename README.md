@@ -16,7 +16,7 @@
 * **[Evaluation of LMs](#evaluation-of-lms)**
 * **[Transformer-Based Language Models](#transformer-based-language-models)**
 * **[Generative configuration parameters for inference](#generative-configuration-parameters-for-inference)**
-* **[Computational challenges and Qunatization](#Computational-challenges-and-Qunatization)**
+* **[Computational challenges and Quantization](#Computational-challenges-and-Quantization)**
 * **[Prompt Engineering](#prompt-engineering)**
    * [In-context Learning](#in-context-learning-icl)
    * [Auto Prompt](#auto-prompt-techniques)
@@ -253,7 +253,7 @@ generation_config.num_return_sequences = 1
 
 
 ---
-## Computational challenges and Qunatization
+## Computational challenges and Quantization
 Approximate GPU RAM needed to store/train 1B parameters
    - To store 1 parameter = 4 bytes(FP32) --> 1B parameters = 4GB 
    - To train 1 parameter = 24 bytes(FP32) --> 1B paramters = 80GB
