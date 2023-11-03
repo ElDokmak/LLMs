@@ -25,6 +25,8 @@
 * **[LangChain](#building-applications-with-langchain)**
 * **[LLM Model Evaluation](#llm-model-evaluation)**
 * **[Refrences](#Refrences)**
+* **[AI Agents](#ai-agents)**
+
 
 
 
@@ -890,7 +892,7 @@ Which would give limitations in real-world performance.
       Human evals gives the most natural measure of quality, but it does't scale well, relatively slow and costly.
    2. **LLMs as judges:**
       Using LLMs as judges to evaluate other LLMs, GPT-4 can match human prefrences with over 80% agreement when evaluating conversational chatbots.
-      * Practical examples using langchain (check [note-book]())
+      * Practical examples using langchain (check [note-book](https://github.com/ElDokmak/LLMs/tree/main/Notebooks))
         - **Types of evaluation**
           1. ***Conciseness evaluation:*** measures if the the submission concise and to the point.
           2. ***Correctness using an additional reference:*** This might not be the best choice as we are not sure if the LLM has the correct knowledge. It also requires reference.
@@ -952,12 +954,16 @@ Which would give limitations in real-world performance.
 
 
 ---
+## AI Agents
+
+
+
+
+
+---
 ## Refrences        
 |                                                 Refrences                                                                |
 | :----------------------------------------------------------------------------------------------------------------------: |
-|          [Stanford](https://web.stanford.edu)                                                                            | 
-|          [Machine Learning Mastery](https://machinelearningmastery.com/)                                                 | 
-|          [Towardsdatascience](https://towardsdatascience.com/)                                                           | 
 |          [Attention Is All You Need](https://arxiv.org/abs/1706.03762)                                                   | 
 |          [GPTQ: Post-Training Quantization for Generative Pre-trained Transformers](https://arxiv.org/abs/2210.17323)    | 
 |          [GGML](https://github.com/ggerganov/ggml)                                                                       | 
