@@ -6,6 +6,7 @@
 * **[Callbacks](#callbacks)**
 * **[Data Augmentation](#data-augmentation)**
 * **[Talk to your documents](#talk-to-your-documents)**
+* **[RAG evaluation](#retrival-augmented-generation-rag-evaluation)**
 
 
 
@@ -555,3 +556,56 @@ Just wrapping every thing of data augmentation together. You can check the noteb
 
 
 ---
+## Retrival Augmented Generation (RAG) evaluation
+We need RAG models to use the given context to correctly answer a question, generate text, or write summary. This is challenging and difficult to evaluate.
+```
+# Load your model
+model_name = "meta-llama/Llama-2-13b-chat-hf"
+
+# Load your Evaluator
+from langchain.chat_models import ChatOpenAI
+os.environ["OPENAI_API_KEY"] = "Enter Your API-KEY" 
+evaluation_llm = ChatOpenAI(model="gpt-4")
+```
+```
+question = "How many people are living in Nuremberg?"
+context="Nuremberg is the second-largest city of the German state of Bavaria after its capital Munich, and its 541,000 inhabitants make it the 14th-largest city in Germany. On the Pegnitz River (from its confluence with the Rednitz in Fürth onwards: Regnitz, a tributary of the River Main) and the Rhine–Main–Danube Canal, it lies in the Bavarian administrative region of Middle Franconia, and is the largest city and the unofficial capital of Franconia. Nuremberg forms with the neighbouring cities of Fürth, Erlangen and Schwabach a continuous conurbation with a total population of 812,248 (2022), which is the heart of the urban area region with around 1.4 million inhabitants,[4] while the larger Nuremberg Metropolitan Region has approximately 3.6 million inhabitants. The city lies about 170 kilometres (110 mi) north of Munich. It is the largest city in the East Franconian dialect area."
+
+prompt = f"""Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+{context}
+
+Question: {question}"""
+
+pred = generate(prompt)
+print(pred)
+# 'According to the text, Nuremberg has a population of 541,000 inhabitants.'
+
+false_pred = generate(question)
+print(false_pred)
+# As of December 31, 2020, the population of Nuremberg, Germany is approximately 516,000 people.
+```
+```
+from langchain.evaluation import load_evaluator
+from pprint import pprint as print
+
+evaluator = load_evaluator("context_qa", llm=evaluation_llm)
+
+eval_result = evaluator.evaluate_strings(
+  input=question,
+  prediction=pred,
+  context=context,
+  reference="541,000"
+)
+print(eval_result)
+# {'reasoning': 'CORRECT', 'score': 1, 'value': 'CORRECT'}
+
+eval_result = evaluator.evaluate_strings(
+  input=question,
+  prediction=false_pred,
+  context=context,
+  reference="541,000"
+)
+print(eval_result)
+# {'reasoning': 'INCORRECT', 'score': 0, 'value': 'INCORRECT'}
+```
