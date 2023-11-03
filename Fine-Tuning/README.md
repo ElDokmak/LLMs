@@ -153,22 +153,22 @@ qa_model = PeftModel.from_pretrained(model, peft_model_id)
 
 ---
 ## QLoRA (Quantized LLMs and Low Rank Adaption)
-<img src="https://miro.medium.com/v2/resize:fit:1400/0*oV_KwvWnFYzuWzlz.png">
+<kbd>
+ <img src="https://miro.medium.com/v2/resize:fit:1400/0*oV_KwvWnFYzuWzlz.png">
+</kbd>
 
-> **QLoRA**, is a technique that helps in training and fine-tuning large language models (LLMs) on regular computers with limited memory. It addresses the challenge of memory requirements when working with these models.
->
-> The key idea behind QLoRA is to make LLMs more efficient by reducing their memory usage while maintaining reliable performance. It achieves this through several steps: by introducing 4-bit quantization, a new data type called 4-bit NormalFloat (NF4), double quantization, and paged optimizers.
-
-* **4-bit quantization:**
-  - 4-bit quantization of weights and apply PEFT, inject LoRA adapters in each layer in 32-bit precision, and start to fine-tune the complete Language model on a specific task, **for the quantized configuration to reduce the quantization error of the system.**
-  - Perform additionally a mixed precision training to balance the trade-off between accuracy and speed/memory usage.
-  - QLoRA has one storage data type (NF4) and a computation data type (FP16).
-  - We dequantize the storage data type to the computation data type to perform the forward and backward pass, **but we only compute weight gradients for the LoRA parameters which use 16-bit BrainFloat.**
-* **Double Quantization:**
-  - This is a technique that combines 4-bit quantization with 8-bit quantization to further reduce the memory footprint.
-  - By applying a second quantization to the quantization constants, the memory footprint of these constants can be significantly reduced. 
-* **Paged Optimizers:**
-  - This allows QLoRa to use more memory than is available on a single GPU by paging in and out data as needed.
+**QLoRA**, is a technique that helps in training and fine-tuning large language models (LLMs) on regular computers with limited memory. It addresses the challenge of memory requirements when working with these models.
+* The key idea behind QLoRA is to make LLMs more efficient by reducing their memory usage while maintaining reliable performance. It achieves this through several steps: by introducing 4-bit quantization, a new data type called 4-bit NormalFloat (NF4), double quantization, and paged optimizers.
+  - **4-bit quantization:**
+    - 4-bit quantization of weights and apply PEFT, inject LoRA adapters in each layer in 32-bit precision, and start to fine-tune the complete Language model on a specific task, **for the quantized configuration to reduce the quantization error of the system.**
+    - Perform additionally a mixed precision training to balance the trade-off between accuracy and speed/memory usage.
+    - QLoRA has one storage data type (NF4) and a computation data type (FP16).
+    - We dequantize the storage data type to the computation data type to perform the forward and backward pass, **but we only compute weight gradients for the LoRA parameters which use 16-bit BrainFloat.**
+  - **Double Quantization:**
+    - This is a technique that combines 4-bit quantization with 8-bit quantization to further reduce the memory footprint.
+    - By applying a second quantization to the quantization constants, the memory footprint of these constants can be significantly reduced. 
+  - **Paged Optimizers:**
+    - This allows QLoRa to use more memory than is available on a single GPU by paging in and out data as needed.
 
 ### QLoRA Implementation
 **1. Load the model and apply 4bit quantization**
@@ -287,17 +287,19 @@ tokenizer.save_pretrained("merged_model")
 
 ---
 ## QA-LoRA (Quantization-Aware Low-Rank Adaptation)    
-<img src="https://pbs.twimg.com/media/F7lJvyUXIAAfzzB?format=jpg&name=large">
+<kbd>
+ <img src="https://pbs.twimg.com/media/F7lJvyUXIAAfzzB?format=jpg&name=large">
+</kbd>
 
-> The motivation behind QA-LoRA lies in the imbalanced degrees of freedom of quantization and adaptation. Specifically, each column of the pre-trained weight
-matrix is accompanied by only one pair of scaling and zero parameters (explained [here](https://github.com/ElDokmak/LLMs/edit/main/Fine-Tuning/README.md#min-max-quantization)) but many more LoRA parameters. This imbalance not only results in large quantization errors but also makes it difficult to integrate the auxiliary weights into the main model. 
->> **Solution:** is to use use **group-wise operators** which increase the degree of freedom of quantization meanwhile decreasing that of adaptation.
->
-> QA-LoRA equips the original LoRA with two-fold abilities: **(i)** during fine-tuning, the LLM’s weights are quantized
+* The motivation behind QA-LoRA lies in the imbalanced degrees of freedom of quantization and adaptation. Specifically, each column of the pre-trained weight
+matrix is accompanied by only one pair of scaling and zero parameters (explained [here](https://github.com/ElDokmak/LLMs/edit/main/Fine-Tuning/README.md#min-max-quantization)) but many more LoRA parameters. This imbalance not only results in large quantization errors but also makes it difficult to integrate the auxiliary weights into the main model.
+  * **Solution:** is to use use **group-wise operators** which increase the degree of freedom of quantization meanwhile decreasing that of adaptation.
+
+* QA-LoRA equips the original LoRA with two-fold abilities: **(i)** during fine-tuning, the LLM’s weights are quantized
 (e.g., into INT4) to reduce time and memory usage; **(ii)** after fine-tuning, the
 LLM and auxiliary weights are naturally integrated into a quantized model without loss of accuracy without the need for PTQ which often incurs loss of accuracy..
 
-> To get things together **our goal is to have a final quantized model out of the fine-tuning process without the need of PTQ** like in (LoRA and QLoRA) which results in unsatisfying accuracy especially when
+* To get things together **our goal is to have a final quantized model out of the fine-tuning process without the need of PTQ** like in (LoRA and QLoRA) which results in unsatisfying accuracy especially when
 the quantization bit width is low.  
 
 ### The proposed approach
@@ -309,9 +311,11 @@ In LoRA the output y = (W + s · AB)<sup>⊤</sup>x, where W is replaced by W′
 we compute the minimum and maximum values across all elements of W, denoted as min(W) and
 max(W), respectively. Then, W is quantized into W˜ by computing 
 
-<img width="400" src="https://github.com/ElDokmak/LLMs/assets/85394315/7ff81d18-63e6-4603-9162-f42ddbb222ac">
+<kbd>
+ <img width="400" src="https://github.com/ElDokmak/LLMs/assets/85394315/7ff81d18-63e6-4603-9162-f42ddbb222ac">
+</kbd>
 
-> where α = (max(W) − min(W))/(2N − 1) and β = min(W) are called the **scaling and zero
+* where α = (max(W) − min(W))/(2N − 1) and β = min(W) are called the **scaling and zero
 factors**, respectively; ⌊·⌉ denotes the integer rounding operation. All elements in Wˆ are in the set of
 {0, 1, . . . , 2N −1} and thus stored as B-bit integers.
 
@@ -327,16 +331,13 @@ factors**, respectively; ⌊·⌉ denotes the integer rounding operation. All el
 **1. During fine-tuning, the pretrained weights W are converted to a low-bit format to allow LLMs to be fine-tuned using minimal GPUs.**   
 **2. Post fine-tuning, the adjusted and combined weights W' remain in a quantized format for efficient LLM deployment.**
 
-> QLoRA achieved the first goal by quantizing W from FP16 to NF4 during fine-tuning. This joint optimization of quantization and adaptation is feasible as the accuracy difference between W and W~ is offset by the low-rank weights s * AB. However, after fine-tuning, the side weights s * AB are reintegrated to W~, reverting the final weights W' to FP16. Post-training quantization on W' can lead to notable accuracy loss, especially with a low bit width.
+* QLoRA achieved the first goal by quantizing W from FP16 to NF4 during fine-tuning. This joint optimization of quantization and adaptation is feasible as the accuracy difference between W and W~ is offset by the low-rank weights s * AB. However, after fine-tuning, the side weights s * AB are reintegrated to W~, reverting the final weights W' to FP16. Post-training quantization on W' can lead to notable accuracy loss, especially with a low bit width.
 
-> For the second goal as mentioned before the solution was to use: group-wise quantization with low-rank adaptation:
->
-> The primary objective is to merge the quantized W~ and s * AB without resorting to high-precision numbers like FP16. In the original setting, this is unattainable due to the column-wise quantization of W and the unconstrained nature of matrices A and B.
->> The first idea of the authors requires all row vectors of A to be identical. However, this approach results in a significant accuracy drop since it limits the rank of AB to 1, affecting the fine-tuning ability.
->>
->> To address this, the constraints for both quantization and adaptation are relaxed. W is partitioned into L groups, and individual scaling and zero factors are used for quantization within each group. This also requires row vectors of A within the same group to be identical. 
-
-> QA-LoRA offers time and memory benefits. It requires extra storage for scaling and zero factors but reduces the parameters of A.
+* For the second goal as mentioned before the solution was to use: group-wise quantization with low-rank adaptation:
+* The primary objective is to merge the quantized W~ and s * AB without resorting to high-precision numbers like FP16. In the original setting, this is unattainable due to the column-wise quantization of W and the unconstrained nature of matrices A and B.
+  - The first idea of the authors requires all row vectors of A to be identical. However, this approach results in a significant accuracy drop since it limits the rank of AB to 1, affecting the fine-tuning ability.
+  - To address this, the constraints for both quantization and adaptation are relaxed. W is partitioned into L groups, and individual scaling and zero factors are used for quantization within each group. This also requires row vectors of A within the same group to be identical. 
+* QA-LoRA offers time and memory benefits. It requires extra storage for scaling and zero factors but reduces the parameters of A.
 
 > [!NOTE]
 > **Quantization Group Size:**
