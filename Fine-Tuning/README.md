@@ -3,6 +3,7 @@
 * **[QLoRA](#qlora-quantized-llms-and-low-rank-adaption)**
 * **[QA-LoRA](#qa-lora-quantization-aware-low-rank-adaptation)**
 * **[LongLoRA](#longlora)**
+* **[LoftQ](#loftq-lora-fine-tuning-aware-quantization)**
 * **[NEFTune](#neftune-noisy-embeddings-improve-instruction-finetuning)**
 
 
@@ -402,6 +403,31 @@ In term of Training hours LongLoRA has achieved significan improvement than LoRA
 3. Learnable Embeddings and Normalization layers.
 4. Flash Attention.
 5. LongLoRA uses RoPE (Rotary Position Embedding).
+
+
+
+---
+## LoftQ (LoRA Fine-Tuning aware Quantization)
+> Recent researches has focused on compressing Large lagnuage models to make them more more efficient and practical to use, One popular approach is quantization (QAT, PTQ) which quantize the model and while retaining accuracy,as explained in Quantization part
+
+LoftQ method improves on these by considering the subsequent "fine-tuning" process after quantization. It tries to quantize the model in a way that results in a good starting point for fine-tuning.
+
+### How it works 
+1. Given a pretrained model, LoftQ first quantizes the original weights W to quantized weights Q (in lower precision such as NF4).
+2. There is some discrepancy between (difference) the original weight W and the quantized weights and the low rank approximated weights **Q+AB<sup>T</sup>**.
+   * **Our goas is to minimize the discrepancy (difference) between the original weight W and the combined quantized and low-rank approximated weight Q+AB^T.**
+     - The authors approached it as an **optimization** problem, formulated as a **Frobenius norm minimization** **min<sub>Q,A,B</sub>||W-Q-AB<sup>T</sup>||<sub>F</sub>**.
+     - This loss function encapsulate a balance between storage efficiency through Q and compuational effiency through A and B.
+     - The Echart-Young-Mirsky theorem states: the best low-rank approximation of a matrix in the Frobenius norm is given by the truncated singular value decompostion (SVD).
+       - In other words the best way to approximate a matrix with a lower-rank is to keep the largest singular values and discard the smaller ones.
+       - Singular values of a matrix are the non negative square roots of its eigen values.
+ 3. **Alternating Oprimization** is employed to update Q,A, and B, given the current estimates of A and B you find Q that minimzes the norm. Then given this new Q, SVD is used to find low-rank approximation A and B that minimize the residuals **W-Q**.
+ 4. The process then alternates - quantize the weights, do low-rank SVD on the residual, update the quantized + low-rank approximation. Over a few iterations, the quantized initialization converges closer and closer to the original weights.
+ 5. Finally, the optimized Q, A, and B are used to for LoRA fine-tuning. During this phase, Q is kept frozen, and only A and B are subject to change via optimization algorithms like AdamW. 
+
+### Results
+* LoftQ is shown to outperform existing SOTA methods like QLoRA on NLU and NLG datasets, especially at very low precision like 2-bits.
+* Works well with different quantization techniques like uniform quantization or NormalFloat.
 
 
 
