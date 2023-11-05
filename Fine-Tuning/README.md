@@ -313,7 +313,7 @@ we compute the minimum and maximum values across all elements of W, denoted as m
 max(W), respectively. Then, W is quantized into W˜ by computing 
 
 <kbd>
- <img width="400" src="https://github.com/ElDokmak/LLMs/assets/85394315/7ff81d18-63e6-4603-9162-f42ddbb222ac">
+ <img width="400" src="https://github.com/ElDokmak/LLMs/assets/85394315/bff9d40b-fa4f-426a-85a5-07284dab0b73">
 </kbd>
 
 * where α = (max(W) − min(W))/(2N − 1) and β = min(W) are called the **scaling and zero
@@ -371,11 +371,15 @@ However, for long context this is neither sufficiently effective nor efficient.
   * In terms of efficiency, regardless of whether LoRA is employed or not, computational cost increases dramatically as the context size expands, primarily due to the standard self-attention mechanism.
 
 * The attention layer is the main bottlenech is scaling to longer sequences, as its runtime and memory increase quadratically is the sequence length. So LongLoRA proposed **S2-Attention (Shift Short Attention)** an effective approach that shifts the start and end points of the groups by half the group size, each shifted group overlaps with half of the previous group and half of the next group. This overlap ensures information exchange between adjacent groups. This shift ensures information exchange between adjacent groups. (Look at the following image)
-<img src="https://github.com/ElDokmak/LLMs/assets/85394315/365ca8cc-58c4-47aa-84df-8ca192d76b93">
+<kbd>
+ <img width="800" src="https://github.com/ElDokmak/LLMs/assets/85394315/8156fc08-ca82-4752-98fd-7bb963fd2e7b">
+</kbd>
 
 * Shift short attention involves three steps. First, it splits features along the head dimension into two chunks. Second, tokens in one of the chunks are shifted by half of the group size. Third, we split tokens into groups and reshape them into batch dimensions.
 * Another approach that LongLoRA proposed was making embedding and normalization layers trainable.
-<img src="https://github.com/ElDokmak/LLMs/assets/85394315/f986635a-9dde-4234-99aa-a3c92e0919f1">
+<kbd>
+ <img width="800" src="https://github.com/ElDokmak/LLMs/assets/85394315/89d980aa-a18d-445f-bfef-855c4a8e4237">
+</kbd>
 
 > [!NOTE]
 > LoRA  + making embedding and normalization layers trainable = LoRA+
@@ -386,7 +390,9 @@ However, for long context this is neither sufficiently effective nor efficient.
 >> FA2 is a computation optimization, specifically designed to enhance GPU processing performance (Optimize process management inside GPU).
 
 ### Performance of LongLoRA
-<img src="https://github.com/ElDokmak/LLMs/assets/85394315/36b52322-5e0b-4d07-abe1-184c4390a314">
+<kbd>
+ <img width="800" src="https://github.com/ElDokmak/LLMs/assets/85394315/4fa5535d-8a2b-458d-acd2-ecb92a5c9a6c">
+</kbd>
 
 In term of Training hours LongLoRA has achieved significan improvement than LoRA and Full FT.
 
