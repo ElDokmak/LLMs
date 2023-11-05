@@ -3,6 +3,7 @@
 * **[QLoRA](#qlora-quantized-llms-and-low-rank-adaption)**
 * **[QA-LoRA](#qa-lora-quantization-aware-low-rank-adaptation)**
 * **[LongLoRA](#longlora)**
+* **[NEFTune](#neftune-noisy-embeddings-improve-instruction-finetuning)**
 
 
 
@@ -395,4 +396,38 @@ In term of Training hours LongLoRA has achieved significan improvement than LoRA
 3. Learnable Embeddings and Normalization layers.
 4. Flash Attention.
 5. LongLoRA uses RoPE (Rotary Position Embedding).
+
+
+
 ---
+## NEFTune (Noisy Embeddings Improve Instruction Finetuning) 
+NEFTune is a new technique used to boost the performance of chat models.
+
+* **NEFTune** introduces **stochastic noise**, this noise is added to the input embeddings before they are fed to the model's transformers layers. This noise can be dran from various distributions, such as uniform, gaussian.
+  - Introducing noise can **smooth** the optimization, the **noise can help the model escape poor local minima.**
+* This technique is **similar to dropout** but in **different spaces**:
+  - **Dropout:** in neurons space
+  - **NEFTune:** in embeddings space
+* **NEFTune** helps **generalize** better to unseen data.
+> Notice the following image to see difference between Overfitting vs. Dropout vs. NEFTune
+<kbd>
+ <img src="https://github.com/ElDokmak/LLMs/assets/85394315/734e3f47-4eb8-40b9-8119-e43703642c4d">
+</kbd>
+
+### How to code NEFTune
+Use SFTTrainer from hugging face
+```
+from datasets import load_dataset
+from trl import SFTTrainer
+
+dataset = load_dataset("imdb", split="train")
+
+trainer = SFTTrainer(
+    "facebook/opt-350m",
+    train_dataset=dataset,
+    dataset_text_field="text",
+    max_seq_length=512,
+    neftune_noise_alpha=5,
+)
+trainer.train()
+```
