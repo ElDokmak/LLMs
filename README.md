@@ -985,6 +985,8 @@ Which would give limitations in real-world performance.
 |          [LLM-Eval](https://arxiv.org/abs/2305.13711)                                                                    | 
 |          [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)                      | 
 |          [NEFTune: Noisy Embeddings Improve Instruction Finetuning](https://arxiv.org/abs/2310.05914)                    | 
+|          [LoftQ: LoRA-Fine-Tuning-Aware Quantization for Large Language Models](https://arxiv.org/abs/2310.08659)        | 
+
 
 
 
